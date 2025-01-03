@@ -7,24 +7,30 @@
              mc:Ignorable="d" Width="575" Height="325">
     <Grid>
 
-        <GroupBox Background="#FFFFC700" HorizontalAlignment="Left" Width="160" Height="320" VerticalAlignment="Center" RenderTransformOrigin="0.523,0.5" Margin="5,0,0,0">
+        <GroupBox  HorizontalAlignment="Left" Width="160" Height="320" VerticalAlignment="Center" RenderTransformOrigin="0.523,0.5" Margin="5,0,0,0">
+            <GroupBox.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFCCC9C9"/>
+                    <GradientStop Color="#FFCCCCCC" Offset="1"/>
+                </LinearGradientBrush>
+            </GroupBox.Background>
             <Grid Height="310" Margin="-3,0,3,0">
                 <Button Click="HideZone" Content="?" HorizontalAlignment="Left" Margin="122,289,0,1" Width="21"/>
-                <TextBlock HorizontalAlignment="Center" Margin="0,11,0,0" TextWrapping="Wrap" Text="Договор:" VerticalAlignment="Top" Width="135" FontFamily="Times New Roman"/>
-                <TextBlock HorizontalAlignment="Center" Margin="0,56,0,0" TextWrapping="Wrap" Text="Заказчик:" VerticalAlignment="Top" Width="135" FontFamily="Times New Roman"/>
-                <TextBlock HorizontalAlignment="Center" Margin="0,105,0,0" TextWrapping="Wrap" Text="Исполнитель:" VerticalAlignment="Top" Width="135" FontFamily="Times New Roman"/>
-                <TextBlock x:Name="ContractNumber" HorizontalAlignment="Center" Margin="0,25,0,0" TextWrapping="Wrap" Text="ContractNumber:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2" FontWeight="Bold"/>
-                <TextBlock x:Name="CustomerName" HorizontalAlignment="Center" Margin="0,70,0,0" TextWrapping="Wrap" Text="CustomerName:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2" FontWeight="Bold"/>
-                <TextBlock x:Name="BuilderName" HorizontalAlignment="Center" Margin="0,120,0,0" TextWrapping="Wrap" Text="BuilderName:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2" FontWeight="Bold"/>
-                <TextBlock HorizontalAlignment="Center" Margin="0,155,0,0" TextWrapping="Wrap" Text="Дата договора:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman"/>
-                <TextBlock x:Name="StartDate" HorizontalAlignment="Center" Margin="0,170,0,0" TextWrapping="Wrap" Text="StartDate:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2" FontWeight="Bold"/>
-                <TextBlock HorizontalAlignment="Center" Margin="0,188,0,0" TextWrapping="Wrap" Text="Дата начала работ:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman"/>
-                <TextBlock x:Name="StartWorkDate" HorizontalAlignment="Center" Margin="0,203,0,0" TextWrapping="Wrap" Text="StartWorkDate:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2" FontWeight="Bold"/>
-                <TextBlock HorizontalAlignment="Center" Margin="0,220,0,0" TextWrapping="Wrap" Text="Дата окончания работ:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman"/>
-                <TextBlock x:Name="EndWorkDate" HorizontalAlignment="Center" Margin="0,235,0,0" TextWrapping="Wrap" Text="EndWorkDate:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2" FontWeight="Bold" RenderTransformOrigin="0.485,0.467"/>
+                <TextBlock HorizontalAlignment="Center" Margin="0,11,0,0" TextWrapping="Wrap" Text="Договор:" VerticalAlignment="Top" Width="135" FontFamily="Times New Roman" FontWeight="Bold"/>
+                <TextBlock HorizontalAlignment="Center" Margin="0,56,0,0" TextWrapping="Wrap" Text="Заказчик:" VerticalAlignment="Top" Width="135" FontFamily="Times New Roman" FontWeight="Bold"/>
+                <TextBlock HorizontalAlignment="Center" Margin="0,105,0,0" TextWrapping="Wrap" Text="Исполнитель:" VerticalAlignment="Top" Width="135" FontFamily="Times New Roman" FontWeight="Bold"/>
+                <TextBlock x:Name="ContractNumber" HorizontalAlignment="Center" Margin="0,25,0,0" TextWrapping="Wrap" Text="ContractNumber:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2"/>
+                <TextBlock x:Name="CustomerName" HorizontalAlignment="Center" Margin="0,70,0,0" TextWrapping="Wrap" Text="CustomerName:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2"/>
+                <TextBlock x:Name="BuilderName" HorizontalAlignment="Center" Margin="0,120,0,0" TextWrapping="Wrap" Text="BuilderName:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2"/>
+                <TextBlock HorizontalAlignment="Center" Margin="0,155,0,0" TextWrapping="Wrap" Text="Дата договора:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman" FontWeight="Bold"/>
+                <TextBlock x:Name="StartDate" HorizontalAlignment="Center" Margin="0,170,0,0" TextWrapping="Wrap" Text="StartDate:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2"/>
+                <TextBlock HorizontalAlignment="Center" Margin="0,188,0,0" TextWrapping="Wrap" Text="Дата начала работ:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman" FontWeight="Bold"/>
+                <TextBlock x:Name="StartWorkDate" HorizontalAlignment="Center" Margin="0,203,0,0" TextWrapping="Wrap" Text="StartWorkDate:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2"/>
+                <TextBlock HorizontalAlignment="Center" Margin="0,220,0,0" TextWrapping="Wrap" Text="Дата окончания работ:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman" FontWeight="Bold"/>
+                <TextBlock x:Name="EndWorkDate" HorizontalAlignment="Center" Margin="0,235,0,0" TextWrapping="Wrap" Text="EndWorkDate:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2" RenderTransformOrigin="0.485,0.467"/>
                 <Button Click="HideMoney" Content="$" HorizontalAlignment="Left" Margin="94,289,0,0" Width="21" Background="#FFDDDDDD" Height="20" VerticalAlignment="Top"/>
-                <TextBlock HorizontalAlignment="Center" Margin="0,255,0,0" TextWrapping="Wrap" Text="ИГК:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman"/>
-                <TextBlock x:Name="IGK" HorizontalAlignment="Center" Margin="0,270,0,0" TextWrapping="Wrap" Text="IGK:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2" FontWeight="Bold" RenderTransformOrigin="0.485,0.467"/>
+                <TextBlock HorizontalAlignment="Center" Margin="0,255,0,0" TextWrapping="Wrap" Text="ИГК:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman" FontWeight="Bold"/>
+                <TextBlock x:Name="IGK" HorizontalAlignment="Center" Margin="0,270,0,0" TextWrapping="Wrap" Text="IGK:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2" RenderTransformOrigin="0.485,0.467"/>
             </Grid>
         </GroupBox>
         <GroupBox x:Name="Corrector" Background="#FFE8E2CC" HorizontalAlignment="Left" Width="245" Height="320" VerticalAlignment="Center" RenderTransformOrigin="0.523,0.5" Margin="329,0,0,0">
@@ -45,14 +51,16 @@
         </GroupBox>
         <GroupBox x:Name="Money" Width="163" Height="320" Margin="167,0,0,0" Background="#FFAEE695" HorizontalAlignment="Left" VerticalAlignment="Center">
             <Grid>
-                <TextBlock x:Name="ContractMoney" HorizontalAlignment="Center" Margin="0,24,0,0" TextWrapping="Wrap" Text="ContractMoney:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2" FontWeight="Bold"/>
-                <TextBlock HorizontalAlignment="Center" Margin="0,60,0,0" TextWrapping="Wrap" Text="Возможный аванс:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman"/>
-                <TextBlock x:Name="mbAvans" HorizontalAlignment="Center" Margin="0,74,0,0" TextWrapping="Wrap" Text="mbAvans:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2" FontWeight="Bold"/>
-                <TextBlock HorizontalAlignment="Left" Margin="9,108,0,0" TextWrapping="Wrap" Text="Сумма гарантий:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman"/>
-                <TextBlock x:Name="garantMoney" HorizontalAlignment="Left" Margin="9,122,0,0" TextWrapping="Wrap" Text="garantMoney:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2" FontWeight="Bold"/>
-                <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="Сумма контракта:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman"/>
+                <TextBlock x:Name="ContractMoney" HorizontalAlignment="Center" Margin="0,24,0,0" TextWrapping="Wrap" Text="ContractMoney:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2"/>
+                <TextBlock HorizontalAlignment="Center" Margin="0,60,0,0" TextWrapping="Wrap" Text="Возможный аванс:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" FontWeight="Bold"/>
+                <TextBlock x:Name="mbAvans" HorizontalAlignment="Center" Margin="0,74,0,0" TextWrapping="Wrap" Text="mbAvans:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2"/>
+                <TextBlock HorizontalAlignment="Left" Margin="9,108,0,0" TextWrapping="Wrap" Text="Сумма гарантий:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" FontWeight="Bold"/>
+                <TextBlock x:Name="garantMoney" HorizontalAlignment="Left" Margin="9,122,0,0" TextWrapping="Wrap" Text="garantMoney:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2"/>
+                <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="Сумма контракта:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" FontWeight="Bold"/>
             </Grid>
         </GroupBox>
-
+        <Grid.Effect>
+            <DropShadowEffect Color="Black" BlurRadius="30" ShadowDepth="10" Opacity="0.5" Direction="245"/>
+        </Grid.Effect>
     </Grid>
 </UserControl>

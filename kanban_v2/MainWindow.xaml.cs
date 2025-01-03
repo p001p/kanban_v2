@@ -21,6 +21,8 @@ namespace kanban_v2
         private Point _startElementPosition; // Начальная позиция элемента
         private int _blockProjectCounter = 0;
         private int _blockContractCounter = 0;
+        private int _blockIncomeCounter = 0;
+        private int _blockOutcomeCounter = 0;
 
         public MainWindow()
         {
@@ -33,7 +35,7 @@ namespace kanban_v2
             // Создаём экземпляр ProjectBoxControl
             var projectBox = new TypicalProjectBox
             {
-                Name = $"ContractBox{_blockProjectCounter++}"
+                Name = $"ProjectBox{_blockProjectCounter++}"
             }; 
 
             // Получаем позицию мыши относительно Canvas
@@ -82,6 +84,62 @@ namespace kanban_v2
 
             // Добавляем блок на Canvas
             Canvas2.Children.Add(contractBox);
+        }
+
+        //Вставка блока IncomeBox
+        private void AddIncomeBox_Click(object sender, RoutedEventArgs e)
+        {
+            // Создаём экземпляр ProjectBoxControl
+            var incomeBox = new IncomeBox
+            {
+                Name = $"IncomeBox{_blockIncomeCounter++}"
+            };
+
+            // Получаем позицию мыши относительно Canvas
+            var mousePosition = Mouse.GetPosition(Canvas2);
+
+            // Устанавливаем позицию блока на Canvas
+            Canvas.SetLeft(incomeBox, mousePosition.X);
+            Canvas.SetTop(incomeBox, mousePosition.Y);
+
+            // Подписываемся на удаление блока
+            incomeBox.OnDeleteRequestedIncome += RemoveBlockIncome;
+
+            // Подписываемся на события мыши для перемещения
+            incomeBox.MouseLeftButtonDown += Block_MouseLeftButtonDown;
+            incomeBox.MouseMove += Block_MouseMove;
+            incomeBox.MouseLeftButtonUp += Block_MouseLeftButtonUp;
+
+            // Добавляем блок на Canvas
+            Canvas2.Children.Add(incomeBox);
+        }
+
+        //Вставка блока OutcomeBox
+        private void AddOutcomeBox_Click(object sender, RoutedEventArgs e)
+        {
+            // Создаём экземпляр ProjectBoxControl
+            var outcomeBox = new OutcomeBox
+            {
+                Name = $"OutcomeBox{_blockOutcomeCounter++}"
+            };
+
+            // Получаем позицию мыши относительно Canvas
+            var mousePosition = Mouse.GetPosition(Canvas2);
+
+            // Устанавливаем позицию блока на Canvas
+            Canvas.SetLeft(outcomeBox, mousePosition.X);
+            Canvas.SetTop(outcomeBox, mousePosition.Y);
+
+            // Подписываемся на удаление блока
+            outcomeBox.OnDeleteRequestedOutcome += RemoveBlockOutcome;
+
+            // Подписываемся на события мыши для перемещения
+            outcomeBox.MouseLeftButtonDown += Block_MouseLeftButtonDown;
+            outcomeBox.MouseMove += Block_MouseMove;
+            outcomeBox.MouseLeftButtonUp += Block_MouseLeftButtonUp;
+
+            // Добавляем блок на Canvas
+            Canvas2.Children.Add(outcomeBox);
         }
 
         //Начало перетаскивания
@@ -143,6 +201,20 @@ namespace kanban_v2
 
         //Удаление ProjectBlock
         private void RemoveBlockProject(TypicalProjectBox blockToRemove)
+        {
+            // Удаляем блок с Canvas
+            Canvas2.Children.Remove(blockToRemove);
+        }
+
+        //Удаление IncomeBlock
+        private void RemoveBlockIncome(IncomeBox blockToRemove)
+        {
+            // Удаляем блок с Canvas
+            Canvas2.Children.Remove(blockToRemove);
+        }
+
+        //Удаление OutcomeBlock
+        private void RemoveBlockOutcome(OutcomeBox blockToRemove)
         {
             // Удаляем блок с Canvas
             Canvas2.Children.Remove(blockToRemove);

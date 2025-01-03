@@ -14,11 +14,22 @@
             </MenuItem>
         </Menu>
         <Grid>
-            <Canvas x:Name="Canvas2" Background="LightGray" Margin="0,19,0,0">
+            <Canvas x:Name="Canvas2" Margin="0,19,0,0">
+                <Canvas.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF8C9493"/>
+                        <GradientStop Color="#FFC1EFEC" Offset="1"/>
+                        <GradientStop Color="#FFA1C3C0" Offset="1"/>
+                        <GradientStop Color="#FF9BBBB9" Offset="0.997"/>
+                        <GradientStop Color="#FF9BBBB9" Offset="1"/>
+                    </LinearGradientBrush>
+                </Canvas.Background>
                 <Canvas.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Добавить ProjectBox" Click="AddProjectBox_Click" />
-                        <MenuItem Header="Добавить ContractBox" Click="AddContractBox_Click"  />
+                        <MenuItem Header="Добавить ContractBox" Click="AddContractBox_Click"/>
+                        <MenuItem Header="Добавить Income" Click="AddIncomeBox_Click"/>
+                        <MenuItem Header="Добавить Outcome" Click="AddOutcomeBox_Click"/>
                     </ContextMenu>
                 </Canvas.ContextMenu>
             </Canvas>

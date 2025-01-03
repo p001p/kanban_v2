@@ -4,27 +4,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:kanban_v2"
-             mc:Ignorable="d" Height="320" Width="320">
-    <Grid>
-        <GroupBox Background="#FFFFC700" HorizontalAlignment="Left" Width="160" Height="320" VerticalAlignment="Center" RenderTransformOrigin="0.523,0.5" Margin="5,0,0,0">
-            <Grid Height="310" Margin="-3,0,3,0">
-                <Button Content="FOLDER" HorizontalAlignment="Center" Margin="0,242,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.51,-0.393" Width="140"/>
-                <Button Content="OPEN FOLDER" HorizontalAlignment="Center" Margin="0,264,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.51,-0.393" Width="140"/>
-                <TextBlock x:Name="NameBox" HorizontalAlignment="Center" Margin="0,9,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="Auto" Width="Auto" FontWeight="Bold" FontFamily="Times New Roman" TextAlignment="Center" FontSize="16"/>
-                <TextBlock x:Name="OpisBox" HorizontalAlignment="Center" Margin="0,100,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="Auto" Width="Auto" FontFamily="Times New Roman" TextAlignment="Left"/>
-                <Button Click="HideZone" Content="?" HorizontalAlignment="Left" Margin="122,289,0,1" Width="21"/>
+             mc:Ignorable="d" Height="320" Width="330"
+             >
+    <Grid >
+        <GroupBox  HorizontalAlignment="Left" Width="160" Height="320" VerticalAlignment="Center" RenderTransformOrigin="0.523,0.5" Margin="5,0,0,0">
+            <GroupBox.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFCCC9C9"/>
+                    <GradientStop Color="#FFCCCCCC" Offset="1"/>
+                </LinearGradientBrush>
+            </GroupBox.Background>
+
+            <Grid Height="309" Margin="-3,0,-2,0" >
+                <Button Content="F" HorizontalAlignment="Left" Margin="7,281,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.51,-0.393" Width="20" Height="20"/>
+                <Button Content="O" HorizontalAlignment="Left" Margin="32,281,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.51,-0.393" Width="20" Height="20"/>
+                <TextBlock x:Name="OpisBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="ОПИСАНИЕ ПРОЕКТА" VerticalAlignment="Top" Height="Auto" Width="Auto" FontFamily="Times New Roman" TextAlignment="Left" Margin="0,108,0,0" FontSize="14"/>
+                <Button Click="HideZone" Content="?" HorizontalAlignment="Left" Margin="122,281,0,8" Width="20" Height="20"/>
+                <TextBlock x:Name="NameBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="ПРОЕКТ" VerticalAlignment="Top" Height="Auto" Width="Auto" FontWeight="Bold" FontFamily="Times New Roman" TextAlignment="Center" FontSize="16" Margin="0,19,0,0"/>
             </Grid>
+
+
         </GroupBox>
-        <GroupBox x:Name="Corrector" Background="#FFE8E2CC" HorizontalAlignment="Left" Width="160" Height="320" VerticalAlignment="Center" RenderTransformOrigin="0.523,0.5" Margin="160,0,0,0">
+        <GroupBox x:Name="Corrector" Background="#FFE8E2CC" HorizontalAlignment="Left" Width="160" Height="320" VerticalAlignment="Center" RenderTransformOrigin="0.523,0.5" Margin="170,0,0,0">
             <Grid>
                 <TextBox  x:Name ="NameToBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Введите название проекта" VerticalAlignment="Top" Width="140" Height="80" FontWeight="Bold" FontFamily="Arial Black" Background="#FFC5C1C0" Margin="0,9,0,0" RenderTransformOrigin="0.5,0.525"/>
-                <TextBox x:Name="OpisToBox" HorizontalAlignment="Center" Margin="0,119,0,0" TextWrapping="Wrap" Text="Описание проекта" VerticalAlignment="Top" Width="140" Height="135"/>
-                <Button Click="SaveName" Content="WRITE" HorizontalAlignment="Center" Margin="0,94,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.51,-0.393" Width="140"/>
-                <Button Click="SaveOpis" Content="WRITE" HorizontalAlignment="Center" Margin="0,259,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.51,-0.393" Width="140"/>
-                <Button Click="DeleteBlockProject" Content="-" HorizontalAlignment="Left" Margin="3,291,0,2" Width="21"/>
+                <TextBox x:Name="OpisToBox" HorizontalAlignment="Center" Margin="0,119,0,0" TextWrapping="Wrap" Text="Описание проекта" VerticalAlignment="Top" Width="140" Height="125"/>
+                <Button Click="SaveName" Content="WRITE" HorizontalAlignment="Center" Margin="0,91,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.51,-0.393" Width="140"/>
+                <Button Click="SaveOpis" Content="WRITE" HorizontalAlignment="Center" Margin="0,244,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.51,-0.393" Width="140"/>
+                <Button Click="DeleteBlockProject" Content="-" HorizontalAlignment="Left" Margin="3,283,0,10" Width="20"/>
 
             </Grid>
+
         </GroupBox>
+        <Grid.Effect>
+            <DropShadowEffect Color="Black" BlurRadius="30" ShadowDepth="10" Opacity="0.5" Direction="245"/>
+        </Grid.Effect>
     </Grid>
 
 
