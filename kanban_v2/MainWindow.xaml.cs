@@ -11,6 +11,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Win32;
+using Microsoft.Data.Sqlite;
 
 namespace kanban_v2
 {
@@ -19,13 +21,11 @@ namespace kanban_v2
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private UIElement? _draggedElement; // Текущий перетаскиваемый элемент
-        //private Point _startMousePosition; // Начальная позиция мыши
-       // private Point _startElementPosition; // Начальная позиция элемента
         private int _blockProjectCounter = 0;
         private int _blockContractCounter = 0;
-        private int _blockIncomeCounter = 0;
         private int _blockOutcomeCounter = 0;
+        private string? _databasePath;
+
 
         public MainWindow()
         {
@@ -89,35 +89,83 @@ namespace kanban_v2
             Canvas2.Children.Add(contractBox);
         }
 
-        //Вставка блока IncomeBox
+        //Вставка блока IncomeBox (с записью в БД)
         private void AddIncomeBox_Click(object sender, RoutedEventArgs e)
         {
-            // Создаём экземпляр ProjectBoxControl
-            var incomeBox = new IncomeBox
-            {
-                Name = $"IncomeBox{_blockIncomeCounter++}"
+            // Получаем позицию мыши относительно Canvas
+            var mousePosition = Mouse.GetPosition(Canvas2);
 
-            };
+            // Создаём экземпляр ProjectBoxControl
+            var incomeBox = new IncomeBox();
+            
             // Подписываемся на удаление блока
             incomeBox.OnDeleteRequestedIncome += RemoveBlockIncome;
 
-            // Получаем позицию мыши относительно Canvas
-            var mousePosition = Mouse.GetPosition(Canvas2);
+         
 
             // Устанавливаем позицию блока на Canvas
             Canvas.SetLeft(incomeBox, mousePosition.X);
             Canvas.SetTop(incomeBox, mousePosition.Y);
-
-            
-
-            // Подписываемся на события мыши для перемещения
-            //incomeBox.MouseLeftButtonDown += Block_MouseLeftButtonDown;
-            //incomeBox.MouseMove += Block_MouseMove;
-            //incomeBox.MouseLeftButtonUp += Block_MouseLeftButtonUp;
-
+                    
             // Добавляем блок на Canvas
             Canvas2.Children.Add(incomeBox);
+
+            // Сохраняем данные о блоке в таблицу IncomeBox
+            SaveIncomeBoxToDatabase(mousePosition.X, mousePosition.Y);
         }
+        //Метод записи данных в DB для IncomeBox
+        private void SaveIncomeBoxToDatabase(double x, double y)
+        {
+            string connectionString1 = $"Data Source={_databasePath}";
+
+            // Проверяем, что база данных существует
+            if (!DatabaseExists(_databasePath))
+            {
+                MessageBox.Show("Файл базы данных не найден. Проверьте путь.", "Ошибка");
+                return;
+            }
+
+            // Проверяем, что таблица IncomeBox существует
+            if (!TableExists("IncomeBox", connectionString1))
+            {
+                MessageBox.Show("Таблица IncomeBox отсутствует в базе данных. Создайте её перед записью.", "Ошибка");
+                return;
+            }
+
+            try
+            {
+                using (var connection = new SqliteConnection(connectionString1))
+                {
+                    connection.Open();
+
+                    // SQL-запрос для вставки данных
+                    string query = "INSERT INTO IncomeBox (X, Y, incMoney, incOwner, incDate) VALUES (@x, @y, @incMoney, @incOwner, @incDate)";
+
+                    using (var command = new SqliteCommand(query, connection))
+                    {
+                        // Устанавливаем значения параметров
+                        command.Parameters.AddWithValue("@x", x);
+                        command.Parameters.AddWithValue("@y", y);
+                        command.Parameters.AddWithValue("@incMoney", 0); // Значение по умолчанию
+                        command.Parameters.AddWithValue("@incOwner", ""); // Пустое значение
+                        command.Parameters.AddWithValue("@incDate", ""); // Текущая дата
+
+                        // Выполняем запрос
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("Блок IncomeBox добавлен в таблицу.", "Успех");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при добавлении записи в таблицу IncomeBox: {ex.Message}", "Ошибка");
+            }
+        }
+
+
+
+
 
         //Вставка блока OutcomeBox
         private void AddOutcomeBox_Click(object sender, RoutedEventArgs e)
@@ -339,12 +387,220 @@ namespace kanban_v2
             MessageBox.Show("Данные успешно загружены.");
         }
 
-    }
 
+
+
+        //Создаем DB по кнопке
+        private void CreateNewDB(object sender, RoutedEventArgs e)
+        {
+            //Открываем диалоговое окно
+            var saveFileDialog = new SaveFileDialog
+            {
+                Title = "Укажите папку для хранения вновь созданной базы данных",
+                Filter = "SQLite Database (*.sqlite)|*.sqlite",
+                DefaultExt = ".sqlite"
+            };
+            
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string databasePath = saveFileDialog.FileName; 
+
+                try
+                {
+                    //Создание базы данных
+                    using (var connection = new SqliteConnection($"Data Source = {databasePath}"))
+                    {
+                        connection.Open();
+
+                        //Создаем таблицу и добавляем первую запись
+                        string createTableQuery = @"CREATE TABLE IF NOT EXISTS Info (Id INTEGER PRIMARY KEY AUTOINCREMENT,DatabaseName TEXT NOT NULL)";
+                        using (var command = new SqliteCommand(createTableQuery, connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+
+                        // Запрашиваем имя базы у пользователя
+                        string databaseName = Microsoft.VisualBasic.Interaction.InputBox(
+                            "Введите название базы данных:", "Название базы данных", "Моя База");
+
+                        // Добавляем запись с названием базы
+                        string insertQuery = "INSERT INTO Info (DatabaseName) VALUES (@name)";
+                        using (var command = new SqliteCommand(insertQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@name", databaseName);
+                            command.ExecuteNonQuery();
+                        }
+
+                        string createProjectBox = @"CREATE TABLE IF NOT EXISTS ProjectBox (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        X INTEGER NOT NULL,
+                        Y INTEGER NOT NULL,
+                        ProjectName TEXT NOT NULL,
+                        Description TEXT NOT NULL)";
+                        
+                        using (var command = new SqliteCommand(createProjectBox, connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+
+                        string createContractBox = @"CREATE TABLE IF NOT EXISTS ContractBox (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        X INTEGER NOT NULL,
+                        Y INTEGER NOT NULL,
+                        ContractNumber TEXT NOT NULL,
+                        ContractDate TEXT NOT NULL,
+                        Customer TEXT NOT NULL,
+                        Builser TEXT NOT NULL,
+                        DataStartWork TEXT NOT NULL,
+                        DataEndWork TEXT NOT NULL,
+                        Igk TEXT NOT NULL,
+                        mbMoney TEXT NOT NULL,
+                        mbAvans TEXT NOT NULL,
+                        mbGarant TEXT NOT NULL)";
+
+                        using (var command = new SqliteCommand(createContractBox, connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+
+                        string createIncomeBox = @"CREATE TABLE IF NOT EXISTS IncomeBox (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        X INTEGER NOT NULL,
+                        Y INTEGER NOT NULL,
+                        incMoney TEXT NOT NULL,
+                        incOwner TEXT NOT NULL,
+                        incDate TEXT NOT NULL)";
+
+                        using (var command = new SqliteCommand(createIncomeBox, connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+
+                        string createOutcomeBox = @"CREATE TABLE IF NOT EXISTS OutcomeBox (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        X INTEGER NOT NULL,
+                        Y INTEGER NOT NULL,
+                        outMoney TEXT NOT NULL,
+                        outOwner TEXT NOT NULL,
+                        outDate TEXT NOT NULL)";
+
+                        using (var command = new SqliteCommand(createOutcomeBox, connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+
+                        string createTxtBox = @"CREATE TABLE IF NOT EXISTS txtBox (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        X INTEGER NOT NULL,
+                        Y INTEGER NOT NULL,
+                        txt TEXT NOT NULL)";
+
+                        using (var command = new SqliteCommand(createTxtBox, connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                    MessageBox.Show($"База данных успешно создана: {databasePath}", "Успех");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при создании базы данных: {ex.Message}", "Ошибка");
+                }
+            }
+        }
+        // Обработчик кнопки "Открыть базу данных"
+        private void OpenDB(object sender, RoutedEventArgs e)
+        {
+            // Открываем диалоговое окно для выбора файла
+            var openFileDialog = new OpenFileDialog
+            {
+                Title = "Выберите существующую базу данных",
+                Filter = "SQLite Database (*.sqlite)|*.sqlite",
+                DefaultExt = ".sqlite"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string databasePath = openFileDialog.FileName;
+                _databasePath = databasePath;
+                try
+                {
+                    // Проверяем подключение
+                    using (var connection = new SqliteConnection($"Data Source={databasePath}"))
+                    {
+                        connection.Open();
+
+                        // Проверяем, есть ли таблица Info
+                        string checkTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='Info'";
+                        using (var command = new SqliteCommand(checkTableQuery, connection))
+                        {
+                            var result = command.ExecuteScalar();
+                            if (result != null)
+                            {
+                                MessageBox.Show($"База данных успешно открыта: {databasePath}", "Успех");
+                            }
+                            else
+                            {
+                                MessageBox.Show("В базе данных отсутствует таблица Info.", "Предупреждение");
+                            }
+                        }
+
+                        // Считываем название базы данных из таблицы Info
+                        string selectQuery = "SELECT DatabaseName FROM Info LIMIT 1";
+                        using (var command = new SqliteCommand(selectQuery, connection))
+                        {
+                            var databaseName = command.ExecuteScalar()?.ToString();
+                            if (!string.IsNullOrEmpty(databaseName))
+                            {
+                                DatabaseNameTextBlock.Text = $"Название базы данных: {databaseName}";
+                            }
+                            else
+                            {
+                                DatabaseNameTextBlock.Text = "Название базы данных не найдено.";
+                            }
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при открытии базы данных: {ex.Message}", "Ошибка");
+                }
+            }
+        }
+        private bool DatabaseExists(string databasePath)
+        {
+            return File.Exists(databasePath);
+        }
+        private bool TableExists(string tableName, string connectionString)
+        {
+            try
+            {
+                using (var connection = new SqliteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = "SELECT name FROM sqlite_master WHERE type='table' AND name=@tableName";
+                    using (var command = new SqliteCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@tableName", tableName);
+                        var result = command.ExecuteScalar();
+                        return result != null; // true, если таблица существует
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при проверке таблицы: {ex.Message}", "Ошибка");
+                return false;
+            }
+        }
+    }
 }
 
 
 
 
-    
+
 
