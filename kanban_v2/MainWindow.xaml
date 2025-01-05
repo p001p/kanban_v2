@@ -9,8 +9,8 @@
     <Grid>
         <Menu Margin="0,0,0,415">
             <MenuItem Header="Файл">
-                <MenuItem Header="Открыть"  />
-                <MenuItem Header="Сохранить" />
+                <MenuItem Header="Открыть" Click="LoadData" />
+                <MenuItem Header="Сохранить" Click="SaveData" />
             </MenuItem>
         </Menu>
         <Grid>
