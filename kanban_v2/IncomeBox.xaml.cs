@@ -60,8 +60,8 @@ namespace kanban_v2
         {
             // Используем значения свойств, заданных через инициализатор
             ibPole1.Text = IncomeMoney ;
-            ibPole2.Text = Owner ;
-            ibPole3.Text = Date;
+            ibPole2.Text = Date ;
+            ibPole3.Text = Owner;
             ibPole4.Text = Convert.ToString(BlockId) ;
         }
 

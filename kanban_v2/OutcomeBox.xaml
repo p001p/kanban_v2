@@ -27,12 +27,13 @@
                 <TextBlock x:Name="ibPole2" HorizontalAlignment="Left" Margin="11,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="ru-ru" Text="Дата:"/></TextBlock>
                 <TextBlock x:Name="ibPole3" HorizontalAlignment="Left" Margin="10,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="ru-ru" Text="Получатель:"/></TextBlock>
                 <Button Click="HideZoneText" Content="?" HorizontalAlignment="Left" Margin="94,98,0,0" VerticalAlignment="Top" Width="18" RenderTransformOrigin="0.526,0.501"/>
+                <TextBlock x:Name="ibPole4" HorizontalAlignment="Left" Margin="10,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="N"/>
 
             </Grid>
         </GroupBox>
         <GroupBox x:Name="ZoneHide" Background="#FFE8E2CC" Margin="127,0,-92,0">
             <Grid>
-                <Button Click="DeleteBlockOutcomve" Content="-" HorizontalAlignment="Left" Margin="3,98,0,0" VerticalAlignment="Top" Width="19"/>
+                <Button Click="DeleteBlockOutcome" Content="-" HorizontalAlignment="Left" Margin="3,98,0,0" VerticalAlignment="Top" Width="19"/>
                 <TextBox KeyDown="ibWrite_1" x:Name="ibLink1" HorizontalAlignment="Center" Margin="0,11,0,0" TextWrapping="Wrap" Text="Сумма:" VerticalAlignment="Top" Width="109" Height="23"/>
                 <TextBox KeyDown="ibWrite_2" x:Name="ibLink2" HorizontalAlignment="Center" Margin="0,34,0,0" TextWrapping="Wrap" Text="Дата:" VerticalAlignment="Top" Width="109" Height="20"/>
                 <TextBox KeyDown="ibWrite_3" x:Name="ibLink3" HorizontalAlignment="Center" Margin="0,54,0,0" TextWrapping="Wrap" Text="Получатель" VerticalAlignment="Top" Width="109" Height="20"/>

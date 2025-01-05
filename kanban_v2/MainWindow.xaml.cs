@@ -50,6 +50,59 @@ namespace kanban_v2
             }
 
         }
+        //Создаем блок IncomBox
+        private void NewIncomeBox<T>(List<T> items)
+        {
+
+            //Условие создания, если вызов был от кнопки пользователя.
+            if (items[0] is bool firstItem && firstItem == false)
+            {
+                // Получаем позицию мыши относительно Canvas
+                var mousePosition = Mouse.GetPosition(Canvas2);
+
+                // Создаём экземпляр ProjectBoxControl
+                var incomeBox = new IncomeBox(mousePosition.X, mousePosition.Y, false);
+
+                // Подписываемся на удаление блока
+                incomeBox.OnDeleteRequestedIncome += RemoveBlockIncome;
+
+                // Устанавливаем позицию блока на Canvas
+                Canvas.SetLeft(incomeBox, mousePosition.X);
+                Canvas.SetTop(incomeBox, mousePosition.Y);
+
+                // Добавляем блок на Canvas
+                Canvas2.Children.Add(incomeBox);
+            }
+
+            //Условие создания, если вызов был от открытия БД.
+            if (items[0] is bool firstItem1 && firstItem1 == true)
+            {
+                // Создаём блок IncomeBox
+                var incomeBox = new IncomeBox(Convert.ToDouble(items[2]), Convert.ToDouble(items[3]), true)
+                {
+                    BlockId = Convert.ToInt32(items[1]), // Привязываем ID из базы данных
+                    IncomeMoney = Convert.ToString(items[4]), // Ваши свойства IncomeMoney и другие должны быть добавлены в класс IncomeBox
+                    Owner = Convert.ToString(items[5]),
+                    Date = Convert.ToString(items[6]),
+                };
+
+                incomeBox.InitializeData(true);
+                Debug.WriteLine($"Создание блока2: ID={incomeBox.BlockId}, Money={incomeBox.IncomeMoney}, Owner={incomeBox.Owner}, Date={incomeBox.Date}");
+
+                // Устанавливаем позицию блока на Canvas
+                Canvas.SetLeft(incomeBox, Convert.ToDouble(items[2]));
+                Canvas.SetTop(incomeBox, Convert.ToDouble(items[3]));
+
+                // Подписываемся на удаление блока
+                incomeBox.OnDeleteRequestedIncome += RemoveBlockIncome;
+
+                // Добавляем блок на Canvas
+                Canvas2.Children.Add(incomeBox);
+
+
+            }
+
+        }
         //Удаление IncomeBlock
         private void RemoveBlockIncome(IncomeBox incomeBox)
         {
@@ -57,6 +110,87 @@ namespace kanban_v2
             Canvas2.Children.Remove(incomeBox);
             MessageBox.Show($"Блок с ID {incomeBox.BlockId} удалён.", "Успех");
         }
+
+
+        //Вставка блока OutcomeBox (с записью в БД)
+        private void AddOutcomeBox_Click (object sender, RoutedEventArgs e)
+        {
+            if (GlobalData.isConnected)
+            {
+                var mixedList1 = new List<object>
+            {
+                false, 0, 0,0, "null", "null","null",
+            };
+
+                NewOutcomeBox(mixedList1);
+            }
+            else
+            {
+                MessageBox.Show("База данных ещё не подключена!", "Предупреждение");
+
+            }
+        }
+        //Создаем блок OutcomBox
+        private void NewOutcomeBox<T>(List<T> items)
+        {
+
+            //Условие создания, если вызов был от кнопки пользователя.
+            if (items[0] is bool firstItem && firstItem == false)
+            {
+                // Получаем позицию мыши относительно Canvas
+                var mousePosition = Mouse.GetPosition(Canvas2);
+
+                // Создаём экземпляр OutcomeBox
+                var outcomeBox = new OutcomeBox(mousePosition.X, mousePosition.Y, false);
+
+                // Подписываемся на удаление блока
+                outcomeBox.OnDeleteRequestedOutcome += RemoveBlockOutcome;
+
+                // Устанавливаем позицию блока на Canvas
+                Canvas.SetLeft(outcomeBox, mousePosition.X);
+                Canvas.SetTop(outcomeBox, mousePosition.Y);
+
+                // Добавляем блок на Canvas
+                Canvas2.Children.Add(outcomeBox);
+            }
+
+            //Условие создания, если вызов был от открытия БД.
+            if (items[0] is bool firstItem1 && firstItem1 == true)
+            {
+                // Создаём блок OutcomeBox
+                var outcomeBox = new OutcomeBox(Convert.ToDouble(items[2]), Convert.ToDouble(items[3]), true)
+                {
+                    BlockId = Convert.ToInt32(items[1]), // Привязываем ID из базы данных
+                    IncomeMoney = Convert.ToString(items[4]), // Ваши свойства IncomeMoney и другие должны быть добавлены в класс IncomeBox
+                    Owner = Convert.ToString(items[5]),
+                    Date = Convert.ToString(items[6]),
+                };
+
+                outcomeBox.InitializeData1(true);
+                Debug.WriteLine($"Создание блока2: ID={outcomeBox.BlockId}, Money={outcomeBox.IncomeMoney}, Owner={outcomeBox.Owner}, Date={outcomeBox.Date}");
+
+                // Устанавливаем позицию блока на Canvas
+                Canvas.SetLeft(outcomeBox, Convert.ToDouble(items[2]));
+                Canvas.SetTop(outcomeBox, Convert.ToDouble(items[3]));
+
+                // Подписываемся на удаление блока
+                outcomeBox.OnDeleteRequestedOutcome += RemoveBlockOutcome;
+
+                // Добавляем блок на Canvas
+                Canvas2.Children.Add(outcomeBox);
+
+
+            }
+
+        }
+        //Удаление OutcomeBlock
+        private void RemoveBlockOutcome(OutcomeBox outcomeBox)
+        {
+            // Удаляем блок с Canvas
+            Canvas2.Children.Remove(outcomeBox);
+            MessageBox.Show($"Блок с ID {outcomeBox.BlockId} удалён.", "Успех");
+        }
+
 
 
         //Создаем DB по кнопке
@@ -149,9 +283,9 @@ namespace kanban_v2
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
                         X INTEGER NOT NULL,
                         Y INTEGER NOT NULL,
-                        outMoney TEXT NOT NULL,
-                        outOwner TEXT NOT NULL,
-                        outDate TEXT NOT NULL)";
+                        incMoney TEXT NOT NULL,
+                        incOwner TEXT NOT NULL,
+                        incDate TEXT NOT NULL)";
 
                         using (var command = new SqliteCommand(createOutcomeBox, connection))
                         {
@@ -178,6 +312,7 @@ namespace kanban_v2
                 }
             }
         }
+
         // Обработчик кнопки "Открыть базу данных"
         private void OpenDB(object sender, RoutedEventArgs e)
         {
@@ -264,7 +399,7 @@ namespace kanban_v2
                                     string incOwner = string.IsNullOrEmpty(reader.IsDBNull(4) ? null : reader.GetString(4)) ? "Отправитель" : reader.GetString(4);
                                     string incDate = string.IsNullOrEmpty(reader.IsDBNull(5) ? null : reader.GetString(5)) ? "Дата" : reader.GetString(5);
 
-                                
+
                                     // Проверяем полученные значения
                                     Debug.WriteLine($"Создание блока1: ID={id}, X={x}, Y={y}, Money={incMoney}, Owner={incOwner}, Date={incDate}");
 
@@ -276,33 +411,61 @@ namespace kanban_v2
 
                                     NewIncomeBox(mixedList);
 
-                                    /* Создаём блок IncomeBox
-                                    var incomeBox = new IncomeBox(x, y, true)
-                                    {
-                                        BlockId = id, // Привязываем ID из базы данных
-                                        IncomeMoney = incMoney, // Ваши свойства IncomeMoney и другие должны быть добавлены в класс IncomeBox
-                                        Owner = incOwner,
-                                        Date = incDate,
-                                    };
 
-                                    incomeBox.InitializeData(true);
-                                    Debug.WriteLine($"Создание блока2: ID={incomeBox.BlockId}, Money={incomeBox.IncomeMoney}, Owner={incomeBox.Owner}, Date={incomeBox.Date}");
+                                }
+                            }
+                        }
 
-                                    // Устанавливаем позицию блока на Canvas
-                                    Canvas.SetLeft(incomeBox, x);
-                                    Canvas.SetTop(incomeBox, y);
+                        // Проверяем, есть ли таблица OutcomeBox
+                        string checkTableQueryOutcomeBox = "SELECT name FROM sqlite_master WHERE type='table' AND name='OutcomeBox'";
+                        using (var command = new SqliteCommand(checkTableQueryOutcomeBox, connection))
+                        {
+                            var result = command.ExecuteScalar();
+                            if (result != null)
+                            {
+                                MessageBox.Show($"В базе данных присутствует таблица OutcomeBox.", "Успех");
+                            }
+                            else
+                            {
+                                MessageBox.Show("В базе данных отсутствует таблица OutcomeBox.", "Предупреждение");
+                            }
+                        }
 
-                                    // Подписываемся на удаление блока
-                                    incomeBox.OnDeleteRequestedIncome += RemoveBlockIncome;
+                        // Считываем записи из таблицы OutcomeBox
+                        string selectOutcomeBoxQuery = "SELECT Id, X, Y, incMoney, incOwner, incDate FROM OutcomeBox";
+                        using (var command = new SqliteCommand(selectOutcomeBoxQuery, connection))
+                        {
+                            using (var reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    // Получаем значения из таблицы
+                                    int id = reader.GetInt32(0);
+                                    double x = reader.GetDouble(1);
+                                    double y = reader.GetDouble(2);
+                                    string incMoney = string.IsNullOrEmpty(reader.IsDBNull(3) ? null : reader.GetString(3)) ? "Введите сумму" : reader.GetString(3);
+                                    string incOwner = string.IsNullOrEmpty(reader.IsDBNull(4) ? null : reader.GetString(4)) ? "Получатель" : reader.GetString(4);
+                                    string incDate = string.IsNullOrEmpty(reader.IsDBNull(5) ? null : reader.GetString(5)) ? "Дата" : reader.GetString(5);
 
-                                    // Добавляем блок на Canvas
-                                    Canvas2.Children.Add(incomeBox);
-                                    */
+
+                                    // Проверяем полученные значения
+                                    Debug.WriteLine($"Создание блока1: ID={id}, X={x}, Y={y}, Money={incMoney}, Owner={incOwner}, Date={incDate}");
+
+                                    //Формируем список из переменных и вызываем метод
+                                    var mixedList = new List<object>
+                                        {
+                                             true, id, x,y, incMoney, incOwner,incDate,
+                                        };
+
+                                    NewOutcomeBox(mixedList);
                                 }
                             }
                         }
                     }
                 }
+
+
+
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Ошибка при открытии базы данных: {ex.Message}", "Ошибка");
@@ -337,59 +500,7 @@ namespace kanban_v2
             }
         }
 
-        //Создаем блок IncomBox
-        private void NewIncomeBox<T>(List<T> items)
-        {
-
-            //Условие создания, если вызов был от кнопки пользователя.
-            if (items[0] is bool firstItem && firstItem == false)
-            {
-                // Получаем позицию мыши относительно Canvas
-                var mousePosition = Mouse.GetPosition(Canvas2);
-
-                // Создаём экземпляр ProjectBoxControl
-                var incomeBox = new IncomeBox(mousePosition.X, mousePosition.Y, false);
-
-                // Подписываемся на удаление блока
-                incomeBox.OnDeleteRequestedIncome += RemoveBlockIncome;
-
-                // Устанавливаем позицию блока на Canvas
-                Canvas.SetLeft(incomeBox, mousePosition.X);
-                Canvas.SetTop(incomeBox, mousePosition.Y);
-
-                // Добавляем блок на Canvas
-                Canvas2.Children.Add(incomeBox);
-            }
-
-            //Условие создания, если вызов был от открытия БД.
-            if (items[0] is bool firstItem1 && firstItem1 == true )
-            {
-                // Создаём блок IncomeBox
-                var incomeBox = new IncomeBox(Convert.ToDouble(items[2]), Convert.ToDouble(items[3]), true)
-                {
-                    BlockId = Convert.ToInt32(items[1]), // Привязываем ID из базы данных
-                    IncomeMoney = Convert.ToString(items[4]), // Ваши свойства IncomeMoney и другие должны быть добавлены в класс IncomeBox
-                    Owner = Convert.ToString(items[5]),
-                    Date = Convert.ToString(items[6]),
-                };
-
-                incomeBox.InitializeData(true);
-                Debug.WriteLine($"Создание блока2: ID={incomeBox.BlockId}, Money={incomeBox.IncomeMoney}, Owner={incomeBox.Owner}, Date={incomeBox.Date}");
-
-                // Устанавливаем позицию блока на Canvas
-                Canvas.SetLeft(incomeBox, Convert.ToDouble(items[2]));
-                Canvas.SetTop(incomeBox, Convert.ToDouble(items[3]));
-
-                // Подписываемся на удаление блока
-                incomeBox.OnDeleteRequestedIncome += RemoveBlockIncome;
-
-                // Добавляем блок на Canvas
-                Canvas2.Children.Add(incomeBox);
-
-
-            }
-
-        }
+        
 
 
     }
