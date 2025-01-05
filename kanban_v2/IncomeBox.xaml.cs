@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,37 +22,95 @@ namespace kanban_v2
     /// </summary>
     public partial class IncomeBox : UserControl
     {
+        public int? BlockId { get; set; } // Уникальный идентификатор из базы данных
+        public string? IncomeMoney { get; set; }
+        public string? Owner { get; set; }
+        public string? Date { get; set; }
+        
+                                    
 
         // Поля для перетаскивания
         private Point? _startMousePosition; // Начальная позиция мыши
         private Point? _startElementPosition; // Начальная позиция элемента
-        public IncomeBox()
+
+        public IncomeBox(double x, double y, bool fromDB)
         {
-            InitializeComponent();
+
+       
+
+        InitializeComponent();
 
             // Привязываем обработчики событий для перетаскивания
             this.MouseLeftButtonDown += Block_MouseLeftButtonDown;
             this.MouseMove += Block_MouseMove;
             this.MouseLeftButtonUp += Block_MouseLeftButtonUp;
             MessageBox.Show("IncomeBox создан"); // Диагностика
+            if (!fromDB)
+            {
+                getIdIncomeBox(x, y); //получаем ID блока после вставки
+            }
+            
+          
+
         }
 
+        public void InitializeData(bool x)
+        {
+            // Используем значения свойств, заданных через инициализатор
+            ibPole1.Text = IncomeMoney ?? "0";
+            ibPole2.Text = Owner ?? "0";
+            ibPole3.Text = Date ?? "0";
+            ibPole4.Text = Convert.ToString(BlockId) ?? "25";
+        }
 
+        //Логика для удаления блока
         public event Action<IncomeBox>? OnDeleteRequestedIncome;
-
         private void DeleteBlockIncomve(object sender, RoutedEventArgs e)
         {
+            var result = MessageBox.Show("Вы уверены, что хотите удалить этот блок?", "Подтверждение", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
             {
-                MessageBox.Show("Кнопка удаления нажата."); // Диагностическое сообщение
+                DeleteIncomeBoxFromDatabase(); // Удаляем запись из базы
+                OnDeleteRequestedIncome?.Invoke(this); // Уведомляем о необходимости удаления блока
+            }
+        }
 
-                if (OnDeleteRequestedIncome != null)
+        private void DeleteIncomeBoxFromDatabase()
+        {
+            if (BlockId == null)
+            {
+                MessageBox.Show("ID блока не установлен. Удаление невозможно.", "Ошибка");
+                return;
+            }
+
+            string connectionString = $"Data Source={GlobalData.globalDatabasePath}";
+
+            try
+            {
+                using (var connection = new SqliteConnection(connectionString))
                 {
-                    OnDeleteRequestedIncome.Invoke(this);
+                    connection.Open();
+
+                    string query = "DELETE FROM IncomeBox WHERE ID = @id";
+                    using (var command = new SqliteCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@id", BlockId);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show($"Блок с ID {BlockId} успешно удалён из базы данных.", "Успех");
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Не удалось найти строку с ID {BlockId} для удаления.", "Предупреждение");
+                        }
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Событие удаления не подписано.");
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении блока из базы данных: {ex.Message}", "Ошибка");
             }
         }
 
@@ -64,54 +124,6 @@ namespace kanban_v2
             {
                 ZoneHide.Visibility = Visibility.Visible;
             }
-        }
-
-        private void ibWrite_1(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                var ibVar1 = ibLink1.Text;
-                ibPole1.Text = ibVar1;
-                e.Handled = true;
-            }
-        }
-        private void ibWrite_2(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                var ibVar2 = ibLink2.Text;
-                ibPole2.Text = ibVar2;
-                e.Handled = true;
-            }
-        }
-
-        private void ibWrite_3(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                var ibVar3 = ibLink3.Text;
-                ibPole3.Text = ibVar3;
-                e.Handled = true;
-            }
-        }
-
-        // Свойства для текста в TextBlock'ах
-        public string Pole1Text
-        {
-            get => ibPole1.Text; // Получаем текст из TextBlock "ibPole1"
-            set => ibPole1.Text = value; // Устанавливаем текст в TextBlock "ibPole1"
-        }
-
-        public string Pole2Text
-        {
-            get => ibPole2.Text; // Получаем текст из TextBlock "ibPole2"
-            set => ibPole2.Text = value; // Устанавливаем текст в TextBlock "ibPole2"
-        }
-
-        public string Pole3Text
-        {
-            get => ibPole3.Text; // Получаем текст из TextBlock "ibPole3"
-            set => ibPole3.Text = value; // Устанавливаем текст в TextBlock "ibPole3"
         }
 
         // Начало перетаскивания
@@ -129,7 +141,6 @@ namespace kanban_v2
             // Захватываем мышь
             this.CaptureMouse();
         }
-
         // Перемещение
         private void Block_MouseMove(object sender, MouseEventArgs e)
         {
@@ -155,7 +166,6 @@ namespace kanban_v2
                 Canvas.SetTop(this, newTop);
             }
         }
-
         // Завершение перетаскивания
         private void Block_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -168,6 +178,161 @@ namespace kanban_v2
             }
         }
 
+        /*Логика записи значений пользователя и взаимодействия с БД. 
+         Предполагается, что когда блок создается, он получает свой уникальный ID в БД. */
+        private void getIdIncomeBox(double x, double y)
+        {
+            string connectionString2 = $"Data Source={GlobalData.globalDatabasePath}";
 
+            try
+            {
+                using (var line = new SqliteConnection(connectionString2))
+                {
+                    line.Open();
+                    MessageBox.Show("Соединение с базой данных успешно установлено.", "Успех");
+
+                    // Вставляем новую запись
+                    string insertQuery = @"
+            INSERT INTO IncomeBox (X, Y, incMoney, incOwner, incDate) 
+            VALUES (@x, @y, @money, @owner, @date)";
+
+                    using (var insertCommand = new SqliteCommand(insertQuery, line))
+                    {
+                        insertCommand.Parameters.AddWithValue("@x", x);
+                        insertCommand.Parameters.AddWithValue("@y", y);
+                        insertCommand.Parameters.AddWithValue("@money", "");
+                        insertCommand.Parameters.AddWithValue("@owner", "");
+                        insertCommand.Parameters.AddWithValue("@date", "");
+
+                        insertCommand.ExecuteNonQuery();
+                    }
+
+                    // Получаем последний ID
+                    string getLastIdQuery = "SELECT last_insert_rowid()";
+                    using (var getLastIdCommand = new SqliteCommand(getLastIdQuery, line))
+                    {
+                        var result = getLastIdCommand.ExecuteScalar();
+                        if (result != null)
+                        {
+                            BlockId = Convert.ToInt32(result);
+                            MessageBox.Show($"Блоку присвоен ID: {BlockId}");
+                            ibPole4.Text = Convert.ToString(BlockId);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Не удалось получить последний ID.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при установлении соединения: {ex.Message}", "Ошибка");
+            }
+        }
+
+        //Обновление значений. Общий метод.
+        private void UpdateIncomeBoxInDatabase(string column, object value)
+        {
+            if (BlockId == null)
+            {
+                MessageBox.Show("ID блока не установлен. Обновление невозможно.", "Ошибка");
+                return;
+            }
+
+            string connectionString = $"Data Source={GlobalData.globalDatabasePath}";
+
+            try
+            {
+                using (var connection = new SqliteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = $"UPDATE IncomeBox SET {column} = @value WHERE ID = @id";
+                    using (var command = new SqliteCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@value", value ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@id", BlockId);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show($"Значение {column} успешно обновлено.", "Успех");
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Не удалось обновить значение {column}.", "Ошибка");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при обновлении значения {column}: {ex.Message}", "Ошибка");
+            }
+        }
+
+
+        private void ibWrite_1(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ibPole1.Text = ibLink1.Text; // Получаем введённое значение
+                UpdateIncomeBoxInDatabase("incMoney", ibPole1.Text); // Обновляем в БД
+                e.Handled = true;
+            }
+        }
+
+        private void ibWrite_2(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ibPole2.Text = ibLink2.Text;
+                UpdateIncomeBoxInDatabase("incDate", ibPole2.Text); // Обновляем дату в БД
+                e.Handled = true;
+            }
+        }
+
+        private void ibWrite_3(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ibPole3.Text = ibLink3.Text;
+                UpdateIncomeBoxInDatabase("incOwner", ibPole3.Text); // Обновляем отправителя в БД
+                e.Handled = true;
+            }
+        }
+
+        
+        // Свойства для текста в TextBlock'ах
+        
+/*   public string Pole1Text
+   {
+       get => ibPole1.Text;// Получаем текст из TextBlock "ibPole1"
+       set => ibPole1.Text = value; // Устанавливаем текст в TextBlock "ibPole2"
+
+   }
+
+   public string Pole2Text
+   {
+       get => ibPole2.Text; // Получаем текст из TextBlock "ibPole2"
+       set => ibPole2.Text = value; // Устанавливаем текст в TextBlock "ibPole2"
+   }
+
+   public string Pole3Text
+   {
+       get => ibPole3.Text; // Получаем текст из TextBlock "ibPole3"
+       set => ibPole3.Text = value; // Устанавливаем текст в TextBlock "ibPole3"
+   }
+*/
+public string Pole4Text
+        {
+            //get => BlockId; // Получаем текст из TextBlock "ibPole3"
+            set => ibPole4.Text = Convert.ToString(BlockId); // Устанавливаем текст в TextBlock "ibPole3"
+        }
+
+        
+        
     }
+    
 }

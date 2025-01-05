@@ -9,8 +9,7 @@
     <Grid>
         <Menu Margin="0,0,0,415">
             <MenuItem Header="Файл">
-                <MenuItem Header="Открыть" Click="LoadData" />
-                <MenuItem Header="Сохранить" Click="SaveData" />
+                
                 <MenuItem Header="Создать DB" Click="CreateNewDB"/>
                 <MenuItem Header="Открыть DB" Click="OpenDB" />
             </MenuItem>
@@ -28,10 +27,9 @@
                 </Canvas.Background>
                 <Canvas.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Добавить ProjectBox" Click="AddProjectBox_Click" />
-                        <MenuItem Header="Добавить ContractBox" Click="AddContractBox_Click"/>
+                        
                         <MenuItem Header="Добавить Income" Click="AddIncomeBox_Click"/>
-                        <MenuItem Header="Добавить Outcome" Click="AddOutcomeBox_Click"/>
+                       
                     </ContextMenu>
                 </Canvas.ContextMenu>
                 <TextBlock x:Name="DatabaseNameTextBlock" Canvas.Left="15" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="10"/>
