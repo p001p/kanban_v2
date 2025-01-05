@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Xceed.Wpf.AvalonDock.Themes;
 
 namespace kanban_v2
 {
@@ -175,7 +177,30 @@ namespace kanban_v2
                 this.ReleaseMouseCapture();
                 _startMousePosition = null;
                 _startElementPosition = null;
+
+                double xNew = Canvas.GetLeft(this);
+                double yNew = Canvas.GetTop(this);
+
+                string connectionString = $"Data Source={GlobalData.globalDatabasePath}";
+                string query = $@"
+                UPDATE IncomeBox 
+                SET [X] = @x, 
+                [Y] = @y
+                WHERE [ID] = @z";
+
+                using (var connection = new SqliteConnection(connectionString))
+                {
+                connection.Open();
+                using (var command1 = new SqliteCommand(query, connection))
+                {
+                        command1.Parameters.AddWithValue("@x", xNew);
+                        command1.Parameters.AddWithValue("@y", yNew);
+                        command1.Parameters.AddWithValue("@z", BlockId);
+                        command1.ExecuteNonQuery();
+                }
             }
+        }
+               
         }
 
         /*Логика записи значений пользователя и взаимодействия с БД. 
@@ -304,28 +329,8 @@ namespace kanban_v2
         }
 
         
-        // Свойства для текста в TextBlock'ах
         
-/*   public string Pole1Text
-   {
-       get => ibPole1.Text;// Получаем текст из TextBlock "ibPole1"
-       set => ibPole1.Text = value; // Устанавливаем текст в TextBlock "ibPole2"
-
-   }
-
-   public string Pole2Text
-   {
-       get => ibPole2.Text; // Получаем текст из TextBlock "ibPole2"
-       set => ibPole2.Text = value; // Устанавливаем текст в TextBlock "ibPole2"
-   }
-
-   public string Pole3Text
-   {
-       get => ibPole3.Text; // Получаем текст из TextBlock "ibPole3"
-       set => ibPole3.Text = value; // Устанавливаем текст в TextBlock "ibPole3"
-   }
-*/
-public string Pole4Text
+        public string Pole4Text
         {
             //get => BlockId; // Получаем текст из TextBlock "ibPole3"
             set => ibPole4.Text = Convert.ToString(BlockId); // Устанавливаем текст в TextBlock "ibPole3"
