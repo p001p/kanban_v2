@@ -14,6 +14,7 @@ using System.IO;
 using Microsoft.Win32;
 using Microsoft.Data.Sqlite;
 using System.Diagnostics;
+using System;
 
 namespace kanban_v2
 {
@@ -33,22 +34,21 @@ namespace kanban_v2
         //Вставка блока IncomeBox (с записью в БД)
         private void AddIncomeBox_Click(object sender, RoutedEventArgs e)
         {
-            // Получаем позицию мыши относительно Canvas
-            var mousePosition = Mouse.GetPosition(Canvas2);
+            if (GlobalData.isConnected)
+            {
+                var mixedList = new List<object>
+            {
+                false, 0, 0,0, "null", "null","null",
+            };
 
-            // Создаём экземпляр ProjectBoxControl
-            var incomeBox = new IncomeBox(mousePosition.X, mousePosition.Y, false);
+                NewIncomeBox(mixedList);
+            }
+            else
+            {
+                MessageBox.Show("База данных ещё не подключена!", "Предупреждение");
 
-            // Подписываемся на удаление блока
-            incomeBox.OnDeleteRequestedIncome += RemoveBlockIncome;
+            }
 
-            // Устанавливаем позицию блока на Canvas
-            Canvas.SetLeft(incomeBox, mousePosition.X);
-            Canvas.SetTop(incomeBox, mousePosition.Y);
-
-            // Добавляем блок на Canvas
-            Canvas2.Children.Add(incomeBox);
-                       
         }
         //Удаление IncomeBlock
         private void RemoveBlockIncome(IncomeBox incomeBox)
@@ -209,10 +209,12 @@ namespace kanban_v2
                             if (result != null)
                             {
                                 MessageBox.Show($"База данных успешно открыта: {databasePath}", "Успех");
+                                GlobalData.isConnected = true;
                             }
                             else
                             {
                                 MessageBox.Show("В базе данных отсутствует таблица Info.", "Предупреждение");
+                                GlobalData.isConnected = false;
                             }
                         }
 
@@ -258,14 +260,23 @@ namespace kanban_v2
                                     int id = reader.GetInt32(0);
                                     double x = reader.GetDouble(1);
                                     double y = reader.GetDouble(2);
-                                    string incMoney = reader.GetString(3);
-                                    string incOwner = reader.GetString(4);
-                                    string incDate = reader.GetString(5);
+                                    string incMoney = string.IsNullOrEmpty(reader.IsDBNull(3) ? null : reader.GetString(3)) ? "Введите сумму" : reader.GetString(3);
+                                    string incOwner = string.IsNullOrEmpty(reader.IsDBNull(4) ? null : reader.GetString(4)) ? "Отправитель" : reader.GetString(4);
+                                    string incDate = string.IsNullOrEmpty(reader.IsDBNull(5) ? null : reader.GetString(5)) ? "Дата" : reader.GetString(5);
 
+                                
                                     // Проверяем полученные значения
                                     Debug.WriteLine($"Создание блока1: ID={id}, X={x}, Y={y}, Money={incMoney}, Owner={incOwner}, Date={incDate}");
 
-                                    // Создаём блок IncomeBox
+                                    //Формируем список из переменных и вызываем метод
+                                    var mixedList = new List<object>
+                                        {
+                                             true, id, x,y, incMoney, incOwner,incDate,
+                                        };
+
+                                    NewIncomeBox(mixedList);
+
+                                    /* Создаём блок IncomeBox
                                     var incomeBox = new IncomeBox(x, y, true)
                                     {
                                         BlockId = id, // Привязываем ID из базы данных
@@ -286,6 +297,7 @@ namespace kanban_v2
 
                                     // Добавляем блок на Canvas
                                     Canvas2.Children.Add(incomeBox);
+                                    */
                                 }
                             }
                         }
@@ -325,13 +337,63 @@ namespace kanban_v2
             }
         }
 
-        
+        //Создаем блок IncomBox
+        private void NewIncomeBox<T>(List<T> items)
+        {
+
+            //Условие создания, если вызов был от кнопки пользователя.
+            if (items[0] is bool firstItem && firstItem == false)
+            {
+                // Получаем позицию мыши относительно Canvas
+                var mousePosition = Mouse.GetPosition(Canvas2);
+
+                // Создаём экземпляр ProjectBoxControl
+                var incomeBox = new IncomeBox(mousePosition.X, mousePosition.Y, false);
+
+                // Подписываемся на удаление блока
+                incomeBox.OnDeleteRequestedIncome += RemoveBlockIncome;
+
+                // Устанавливаем позицию блока на Canvas
+                Canvas.SetLeft(incomeBox, mousePosition.X);
+                Canvas.SetTop(incomeBox, mousePosition.Y);
+
+                // Добавляем блок на Canvas
+                Canvas2.Children.Add(incomeBox);
+            }
+
+            //Условие создания, если вызов был от открытия БД.
+            if (items[0] is bool firstItem1 && firstItem1 == true )
+            {
+                // Создаём блок IncomeBox
+                var incomeBox = new IncomeBox(Convert.ToDouble(items[2]), Convert.ToDouble(items[3]), true)
+                {
+                    BlockId = Convert.ToInt32(items[1]), // Привязываем ID из базы данных
+                    IncomeMoney = Convert.ToString(items[4]), // Ваши свойства IncomeMoney и другие должны быть добавлены в класс IncomeBox
+                    Owner = Convert.ToString(items[5]),
+                    Date = Convert.ToString(items[6]),
+                };
+
+                incomeBox.InitializeData(true);
+                Debug.WriteLine($"Создание блока2: ID={incomeBox.BlockId}, Money={incomeBox.IncomeMoney}, Owner={incomeBox.Owner}, Date={incomeBox.Date}");
+
+                // Устанавливаем позицию блока на Canvas
+                Canvas.SetLeft(incomeBox, Convert.ToDouble(items[2]));
+                Canvas.SetTop(incomeBox, Convert.ToDouble(items[3]));
+
+                // Подписываемся на удаление блока
+                incomeBox.OnDeleteRequestedIncome += RemoveBlockIncome;
+
+                // Добавляем блок на Canvas
+                Canvas2.Children.Add(incomeBox);
+
+
+            }
+
+        }
 
 
     }
-        
-
-    }
+}
 
 
 

@@ -57,10 +57,10 @@ namespace kanban_v2
         public void InitializeData(bool x)
         {
             // Используем значения свойств, заданных через инициализатор
-            ibPole1.Text = IncomeMoney ?? "0";
-            ibPole2.Text = Owner ?? "0";
-            ibPole3.Text = Date ?? "0";
-            ibPole4.Text = Convert.ToString(BlockId) ?? "25";
+            ibPole1.Text = IncomeMoney ;
+            ibPole2.Text = Owner ;
+            ibPole3.Text = Date;
+            ibPole4.Text = Convert.ToString(BlockId) ;
         }
 
         //Логика для удаления блока
