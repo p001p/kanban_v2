@@ -29,15 +29,12 @@ namespace kanban_v2
         public MainWindow()
         {
             InitializeComponent();
-            // Устанавливаем размеры окна под разрешение экрана
-            this.Width = SystemParameters.PrimaryScreenWidth;
-            this.Height = SystemParameters.PrimaryScreenHeight;
+            this.WindowState = WindowState.Maximized;
 
             // Запрещаем изменение размеров окна
             this.ResizeMode = ResizeMode.NoResize;
 
-            // Устанавливаем окно в центр экрана
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            
         }
 
         //Вставка блока IncomeBox (с записью в БД)
@@ -367,6 +364,87 @@ namespace kanban_v2
             Canvas2.Children.Remove(contractBox);
             MessageBox.Show($"Блок с ID {contractBox.BlockID} удалён.", "Успех");
         }
+
+
+        //Вставка блока TxtBlock (с записью в БД)
+        private void addTxtBox(object sender, RoutedEventArgs e)
+        {
+            if (GlobalData.isConnected)
+            {
+                var mixedList33 = new List<object>
+            {
+                false, 0, 0,"null",
+            };
+
+                NewTxtBox(mixedList33);
+            }
+            else
+            {
+                MessageBox.Show("База данных ещё не подключена!", "Предупреждение");
+
+            }
+        }
+        //Создаем блок TxTBox
+        private void NewTxtBox<T>(List<T> items)
+        {
+
+            //Условие создания, если вызов был от кнопки пользователя.
+            if (items[0] is bool firstItem && firstItem == false)
+            {
+                // Получаем позицию мыши относительно Canvas
+                var mousePosition = Mouse.GetPosition(Canvas2);
+
+                // Создаём экземпляр ContractBox
+                var txtNewBox = new txtBlock(mousePosition.X, mousePosition.Y, false);
+
+                // Подписываемся на удаление блока
+                txtNewBox.OnDeleteRequestedTxtBox += RemoveBlockTxt;
+
+                // Устанавливаем позицию блока на Canvas
+                Canvas.SetLeft(txtNewBox, mousePosition.X);
+                Canvas.SetTop(txtNewBox, mousePosition.Y);
+
+                // Добавляем блок на Canvas
+                Canvas2.Children.Add(txtNewBox);
+            }
+
+            //Условие создания, если вызов был от открытия БД.
+            if (items[0] is bool firstItem1 && firstItem1 == true)
+            {
+                // Создаём блок ContractBox
+                var txtNewBox = new txtBlock(Convert.ToDouble(items[2]), Convert.ToDouble(items[3]), true)
+                {
+                    BlockId = Convert.ToInt32(items[1]), // Привязываем ID из базы данных
+                    dtxtNotice = Convert.ToString(items[4]),
+                    
+                };
+
+                txtNewBox.InitializeData1(true);
+
+
+                // Устанавливаем позицию блока на Canvas
+                Canvas.SetLeft(txtNewBox, Convert.ToDouble(items[2]));
+                Canvas.SetTop(txtNewBox, Convert.ToDouble(items[3]));
+
+                // Подписываемся на удаление блока
+                txtNewBox.OnDeleteRequestedTxtBox += RemoveBlockTxt;
+
+                // Добавляем блок на Canvas
+                Canvas2.Children.Add(txtNewBox);
+
+
+            }
+
+        }
+        //Удаление TxTBox
+        private void RemoveBlockTxt(txtBlock txtNewBox)
+        {
+            // Удаляем блок с Canvas
+            Canvas2.Children.Remove(txtNewBox);
+            MessageBox.Show($"Блок с ID {txtNewBox.BlockId} удалён.", "Успех");
+        }
+
+
 
         //Создаем DB по кнопке
         private void CreateNewDB(object sender, RoutedEventArgs e)
@@ -736,6 +814,52 @@ namespace kanban_v2
                                 }
                             }
                         }
+
+                        // Проверяем, есть ли таблица txtBox
+                        string checkTableQueryTxtBox = "SELECT name FROM sqlite_master WHERE type='table' AND name='txtBox'";
+                        using (var command = new SqliteCommand(checkTableQueryTxtBox, connection))
+                        {
+                            var result = command.ExecuteScalar();
+                            if (result != null)
+                            {
+                                MessageBox.Show($"В базе данных присутствует таблица txtBox.", "Успех");
+                            }
+                            else
+                            {
+                                MessageBox.Show("В базе данных отсутствует таблица txtBox.", "Предупреждение");
+                            }
+                        }
+
+                        // Считываем записи из таблицы ContractBox
+                        string selectTxtBoxQuery = "SELECT Id, X, Y, txt FROM txtBox";
+                        using (var command = new SqliteCommand(selectTxtBoxQuery, connection))
+                        {
+                            using (var reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    // Получаем значения из таблицы
+                                    int id = reader.GetInt32(0);
+                                    double x = reader.GetDouble(1);
+                                    double y = reader.GetDouble(2);
+                                    string dtxtNotice = string.IsNullOrEmpty(reader.IsDBNull(3) ? null : reader.GetString(3)) ? "Введите заметку" : reader.GetString(3);
+                                   
+
+
+
+
+
+                                    //Формируем список из переменных и вызываем метод
+                                    var mixedList44 = new List<object>
+                                        {
+                                             true, id, x,y, dtxtNotice,
+                                        };
+
+                                    NewTxtBox(mixedList44);
+                                }
+                            }
+                        }
+
 
                     }
                 }

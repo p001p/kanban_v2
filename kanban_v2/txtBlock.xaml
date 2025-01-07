@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="kanban_v2.txtBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:kanban_v2"
+             mc:Ignorable="d" Height="Auto" Width="Auto">
+
+
+    <Grid Height="Auto" Width="255" VerticalAlignment="Center" >
+
+        <Grid.Background>
+            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}"/>
+        </Grid.Background>
+
+        <Button Click ="delTxt" Content="-" HorizontalAlignment="Left" Margin="30,10,10,10" VerticalAlignment="Center" Height="20" Width="22"/>
+        <TextBlock x:Name="idTxtBlock" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="N" VerticalAlignment="Center"/>
+        <TextBlock   x:Name="txtNotice" HorizontalAlignment="Left" Margin= "59,10,0,0" TextWrapping="Wrap" Text="Ваша заметка..." VerticalAlignment="Top"  Height="Auto" Width="181"/>
+        <Popup Name="TextInputPopup" StaysOpen="False" Placement="Center">
+            <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="10">
+                <StackPanel>
+                    <TextBox Name="PopupTextBox" Width="300" Height="100"
+                             TextWrapping="Wrap" AcceptsReturn="True" />
+
+                    <Button Content="OK" Width="80" HorizontalAlignment="Right" Click="ConfirmPopup_Click" />
+                </StackPanel>
+            </Border>
+        </Popup>
+        <Button Content="*" HorizontalAlignment="Left" Margin="240,0,0,0" VerticalAlignment="Top" Width="15" Height="15" Click="NeedTextChanger" />
+
+
+
+    </Grid>
+
+
+
+
+</UserControl>

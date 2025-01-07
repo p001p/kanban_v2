@@ -6,32 +6,26 @@
         xmlns:local="clr-namespace:kanban_v2"
         mc:Ignorable="d"
         Title="the FARM" Height="450" Width="800">
-    <Grid>
-        <Menu Margin="0,0,0,415">
-            <MenuItem Header="Файл">
+    
+      
+            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+                <Canvas x:Name="Canvas2" Margin="0,0,0,0" Height="5000" Width="Auto"  Background="#FFB4C6D8">
+                    <Canvas.ContextMenu>
+                        <ContextMenu>
 
-                <MenuItem Header="Создать DB" Click="CreateNewDB"/>
-                <MenuItem Header="Открыть DB" Click="OpenDB" />
-            </MenuItem>
-        </Menu>
-        <Grid>
-            <Canvas x:Name="Canvas2" Margin="0,19,0,0">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="/DALL·E 2025-01-07 07.24.24 - A minimalistic background image with extremely simple geometric design_ no more than 5 straight lines and 2 circular shapes. The background features a.jpg" Opacity="0.2"/>
-                </Canvas.Background>
-                <Canvas.ContextMenu>
-                    <ContextMenu>
+                            <MenuItem Header="Добавить Income" Click="AddIncomeBox_Click"/>
+                            <MenuItem Header="Добавить Outcome" Click="AddOutcomeBox_Click"/>
+                            <MenuItem Header="Добавить Project" Click="AddProjectBox_Click"/>
+                            <MenuItem Header="Добавить Contract" Click="AddContractBox_Click"/>
+                            <MenuItem Header="Создать DB" Click="CreateNewDB"/>
+                            <MenuItem Header="Открыть DB" Click="OpenDB" />
+                            <MenuItem Header="Заметка" Click="addTxtBox" />
+                </ContextMenu>
+                    </Canvas.ContextMenu>
+                    <TextBlock x:Name="DatabaseNameTextBlock" Canvas.Left="15" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="10"/>
+                </Canvas>
+            </ScrollViewer>
+        
+    
 
-                        <MenuItem Header="Добавить Income" Click="AddIncomeBox_Click"/>
-                        <MenuItem Header="Добавить Outcome" Click="AddOutcomeBox_Click"/>
-                        <MenuItem Header="Добавить Project" Click="AddProjectBox_Click"/>
-                        <MenuItem Header="Добавить Contract" Click="AddContractBox_Click"/>
-
-                    </ContextMenu>
-                </Canvas.ContextMenu>
-                <TextBlock x:Name="DatabaseNameTextBlock" Canvas.Left="15" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="10"/>
-            </Canvas>
-
-        </Grid>
-    </Grid>
 </Window>
