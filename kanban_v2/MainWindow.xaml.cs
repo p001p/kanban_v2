@@ -29,6 +29,15 @@ namespace kanban_v2
         public MainWindow()
         {
             InitializeComponent();
+            // Устанавливаем размеры окна под разрешение экрана
+            this.Width = SystemParameters.PrimaryScreenWidth;
+            this.Height = SystemParameters.PrimaryScreenHeight;
+
+            // Запрещаем изменение размеров окна
+            this.ResizeMode = ResizeMode.NoResize;
+
+            // Устанавливаем окно в центр экрана
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         //Вставка блока IncomeBox (с записью в БД)

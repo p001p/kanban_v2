@@ -20,44 +20,174 @@
                 <TextBlock HorizontalAlignment="Center" Margin="0,11,0,0" TextWrapping="Wrap" Text="Договор:" VerticalAlignment="Top" Width="135" FontFamily="Times New Roman" FontWeight="Bold"/>
                 <TextBlock HorizontalAlignment="Center" Margin="0,56,0,0" TextWrapping="Wrap" Text="Заказчик:" VerticalAlignment="Top" Width="135" FontFamily="Times New Roman" FontWeight="Bold"/>
                 <TextBlock HorizontalAlignment="Center" Margin="0,105,0,0" TextWrapping="Wrap" Text="Исполнитель:" VerticalAlignment="Top" Width="135" FontFamily="Times New Roman" FontWeight="Bold"/>
-                <TextBlock x:Name="ContractNumber" HorizontalAlignment="Center" Margin="0,25,0,0" TextWrapping="Wrap" Text="ContractNumber:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2"/>
-                <TextBlock x:Name="CustomerName" HorizontalAlignment="Center" Margin="0,70,0,0" TextWrapping="Wrap" Text="CustomerName:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2"/>
-                <TextBlock x:Name="BuilderName" HorizontalAlignment="Center" Margin="0,120,0,0" TextWrapping="Wrap" Text="BuilderName:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2"/>
+                <TextBlock x:Name="ContractNumber" HorizontalAlignment="Center" Margin="0,25,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30"/>
+                <TextBlock x:Name="CustomerName" HorizontalAlignment="Center" Margin="0,70,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30"/>
+                <TextBlock x:Name="BuilderName" HorizontalAlignment="Center" Margin="0,120,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" />
                 <TextBlock HorizontalAlignment="Center" Margin="0,155,0,0" TextWrapping="Wrap" Text="Дата договора:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman" FontWeight="Bold"/>
-                <TextBlock x:Name="StartDate" HorizontalAlignment="Center" Margin="0,170,0,0" TextWrapping="Wrap" Text="StartDate:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2"/>
+                <TextBlock x:Name="StartDate" HorizontalAlignment="Center" Margin="0,170,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" />
                 <TextBlock HorizontalAlignment="Center" Margin="0,188,0,0" TextWrapping="Wrap" Text="Дата начала работ:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman" FontWeight="Bold"/>
-                <TextBlock x:Name="StartWorkDate" HorizontalAlignment="Center" Margin="0,203,0,0" TextWrapping="Wrap" Text="StartWorkDate:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2"/>
+                <TextBlock x:Name="StartWorkDate" HorizontalAlignment="Center" Margin="0,203,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" />
                 <TextBlock HorizontalAlignment="Center" Margin="0,220,0,0" TextWrapping="Wrap" Text="Дата окончания работ:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman" FontWeight="Bold"/>
-                <TextBlock x:Name="EndWorkDate" HorizontalAlignment="Center" Margin="0,235,0,0" TextWrapping="Wrap" Text="EndWorkDate:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2" RenderTransformOrigin="0.485,0.467"/>
+                <TextBlock x:Name="EndWorkDate" HorizontalAlignment="Center" Margin="0,235,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15"  RenderTransformOrigin="0.485,0.467"/>
                 <Button Click="HideMoney" Content="$" HorizontalAlignment="Left" Margin="94,289,0,0" Width="21" Background="#FFDDDDDD" Height="20" VerticalAlignment="Top"/>
                 <TextBlock HorizontalAlignment="Center" Margin="0,255,0,0" TextWrapping="Wrap" Text="ИГК:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman" FontWeight="Bold"/>
-                <TextBlock x:Name="IGK" HorizontalAlignment="Center" Margin="0,270,0,0" TextWrapping="Wrap" Text="IGK:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2" RenderTransformOrigin="0.485,0.467"/>
+                <TextBlock x:Name="IGK" HorizontalAlignment="Center" Margin="0,270,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" RenderTransformOrigin="0.485,0.467"/>
                 <TextBlock x:Name="ContractID" HorizontalAlignment="Left" Margin="47,295,0,0" TextWrapping="Wrap" Text="N" VerticalAlignment="Top" Width="20" FontFamily="Times New Roman"/>
             </Grid>
         </GroupBox>
         <GroupBox x:Name="Corrector" Background="#FFE8E2CC" HorizontalAlignment="Left" Width="245" Height="320" VerticalAlignment="Center" RenderTransformOrigin="0.523,0.5" Margin="329,0,0,0">
             <Grid Height="310" Margin="-3,0,3,0" >
-                <TextBox KeyDown="enterValue_1" x:Name="ContractNumberToBox" HorizontalAlignment="Center" Margin="0,6,0,0" TextWrapping="Wrap" Text="Номер договора:" VerticalAlignment="Top" Width="225" Height="20"/>
-                <TextBox KeyDown="enterValue_2" x:Name="CustomerToBox" HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap" Text="Заказчик:" VerticalAlignment="Top" Width="225" Height="20"/>
-                <TextBox KeyDown="enterValue_3" x:Name="BuilderToBox" HorizontalAlignment="Center" Margin="0,55,0,0" TextWrapping="Wrap" Text="Исполнитель:" VerticalAlignment="Top" Width="225" Height="20"/>
-                <TextBox KeyDown="enterValue_4" x:Name="StartDateToBox" HorizontalAlignment="Center" Margin="0,80,0,0" TextWrapping="Wrap" Text="Дата договора:" VerticalAlignment="Top" Width="225" Height="20"/>
-                <TextBox KeyDown="enterValue_5" x:Name="StartWorkDateToBox" HorizontalAlignment="Center" Margin="0,105,0,0" TextWrapping="Wrap" Text="Дата начала работ:" VerticalAlignment="Top" Width="225" Height="20"/>
-                <TextBox KeyDown="enterValue_6" x:Name="EndWorkDateToBox" HorizontalAlignment="Center" Margin="0,130,0,0" TextWrapping="Wrap" Text="Дата окончания работ:" VerticalAlignment="Top" Width="225" Height="20"/>
-                <TextBox KeyDown="enterValue_7" x:Name="IGKToBox" HorizontalAlignment="Center" Margin="0,155,0,0" TextWrapping="Wrap" Text="ИГК:" VerticalAlignment="Top" Width="225" Height="20"/>
-                <TextBox KeyDown="enterValue_8" x:Name="ContractMoneyToBox" HorizontalAlignment="Center" Margin="0,200,0,0" TextWrapping="Wrap" Text="Сумма контракта:" VerticalAlignment="Top" Width="225" Height="20"/>
-                <TextBox materialDesign:HintAssist.Hint="Введите ваше имя" KeyDown="enterValue_9" x:Name="mbAvansToBox" HorizontalAlignment="Center" Margin="0,225,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="225" Height="20"/>
-                <TextBox KeyDown="enterValue_10" x:Name="garantMoneyToBox" HorizontalAlignment="Center" Margin="0,250,0,0" TextWrapping="Wrap" Text="Сумма гарантий:" VerticalAlignment="Top" Width="225" Height="20"/>
+                <TextBox KeyDown="enterValue_1" x:Name="ContractNumberToBox" HorizontalAlignment="Center" Margin="0,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="225" Height="20">
+                    <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Foreground" Value="Gray" />
+                        <Setter Property="Text" Value="Введите номер договора" />
+                        <Style.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="Text" Value="" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox KeyDown="enterValue_2" x:Name="CustomerToBox" HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="225" Height="20">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Text" Value="Введите наименования заказчика" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="Text" Value="" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox KeyDown="enterValue_3" x:Name="BuilderToBox" HorizontalAlignment="Center" Margin="0,55,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="225" Height="20">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Text" Value="Введите наименования исполнителя" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="Text" Value="" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox KeyDown="enterValue_4" x:Name="StartDateToBox" HorizontalAlignment="Center" Margin="0,80,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="225" Height="20">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Text" Value="Введите дату заключения договора" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="Text" Value="" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox KeyDown="enterValue_5" x:Name="StartWorkDateToBox" HorizontalAlignment="Center" Margin="0,105,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="225" Height="20">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Text" Value="Введите дату начала работ" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="Text" Value="" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox KeyDown="enterValue_6" x:Name="EndWorkDateToBox" HorizontalAlignment="Center" Margin="0,130,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="225" Height="20">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Text" Value="Введите дату окончания работ" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="Text" Value="" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox KeyDown="enterValue_7" x:Name="IGKToBox" HorizontalAlignment="Center" Margin="0,155,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="225" Height="20">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Text" Value="Введите ИГК" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="Text" Value="" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox KeyDown="enterValue_8" x:Name="ContractMoneyToBox" HorizontalAlignment="Center" Margin="0,200,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="225" Height="20">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Text" Value="Введите стоимость контракта" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="Text" Value="" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox KeyDown="enterValue_9" x:Name="mbAvansToBox" HorizontalAlignment="Center" Margin="0,225,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="225" Height="20">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Text" Value="Введите сумму аванса по договору" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="Text" Value="" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox KeyDown="enterValue_10" x:Name="garantMoneyToBox" HorizontalAlignment="Center" Margin="0,250,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="225" Height="20">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Text" Value="Введите сумму гарантийных обязательств по договору" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="Text" Value="" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
                 <Button Click="DeleteBlock" Content="-" HorizontalAlignment="Left" Margin="3,290,0,0" Width="21" Background="#FFDDDDDD" Height="20" VerticalAlignment="Top"/>
 
             </Grid>
         </GroupBox>
         <GroupBox x:Name="Money" Width="163" Height="320" Margin="167,0,0,0" Background="#FFAEE695" HorizontalAlignment="Left" VerticalAlignment="Center">
             <Grid>
-                <TextBlock x:Name="ContractMoney" HorizontalAlignment="Center" Margin="0,24,0,0" TextWrapping="Wrap" Text="ContractMoney:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2"/>
+                <TextBlock x:Name="ContractMoney" HorizontalAlignment="Center" Margin="0,24,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" />
                 <TextBlock HorizontalAlignment="Center" Margin="0,60,0,0" TextWrapping="Wrap" Text="Возможный аванс:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" FontWeight="Bold"/>
-                <TextBlock x:Name="mbAvans" HorizontalAlignment="Center" Margin="0,74,0,0" TextWrapping="Wrap" Text="mbAvans:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2"/>
+                <TextBlock x:Name="mbAvans" HorizontalAlignment="Center" Margin="0,74,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" />
                 <TextBlock HorizontalAlignment="Left" Margin="9,108,0,0" TextWrapping="Wrap" Text="Сумма гарантий:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" FontWeight="Bold"/>
-                <TextBlock x:Name="garantMoney" HorizontalAlignment="Left" Margin="9,122,0,0" TextWrapping="Wrap" Text="garantMoney:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" Background="#FFEDE2E2"/>
+                <TextBlock x:Name="garantMoney" HorizontalAlignment="Left" Margin="9,122,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="30" />
                 <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="Сумма контракта:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" FontWeight="Bold"/>
             </Grid>
         </GroupBox>

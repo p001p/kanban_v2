@@ -9,7 +9,7 @@
     <Grid>
         <Menu Margin="0,0,0,415">
             <MenuItem Header="Файл">
-                
+
                 <MenuItem Header="Создать DB" Click="CreateNewDB"/>
                 <MenuItem Header="Открыть DB" Click="OpenDB" />
             </MenuItem>
@@ -17,17 +17,11 @@
         <Grid>
             <Canvas x:Name="Canvas2" Margin="0,19,0,0">
                 <Canvas.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF8C9493"/>
-                        <GradientStop Color="#FFC1EFEC" Offset="1"/>
-                        <GradientStop Color="#FFA1C3C0" Offset="1"/>
-                        <GradientStop Color="#FF9BBBB9" Offset="0.997"/>
-                        <GradientStop Color="#FF9BBBB9" Offset="1"/>
-                    </LinearGradientBrush>
+                    <ImageBrush ImageSource="/DALL·E 2025-01-07 07.24.24 - A minimalistic background image with extremely simple geometric design_ no more than 5 straight lines and 2 circular shapes. The background features a.jpg" Opacity="0.2"/>
                 </Canvas.Background>
                 <Canvas.ContextMenu>
                     <ContextMenu>
-                        
+
                         <MenuItem Header="Добавить Income" Click="AddIncomeBox_Click"/>
                         <MenuItem Header="Добавить Outcome" Click="AddOutcomeBox_Click"/>
                         <MenuItem Header="Добавить Project" Click="AddProjectBox_Click"/>
