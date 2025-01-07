@@ -192,6 +192,172 @@ namespace kanban_v2
         }
 
 
+        //Вставка блока ProjectBox (с записью в БД)
+        private void AddProjectBox_Click(object sender, RoutedEventArgs e)
+        {
+            if (GlobalData.isConnected)
+            {
+                var mixedList1 = new List<object>
+            {
+                false, 0, 0,0, "null", "null",
+            };
+
+                NewProjectBox(mixedList1);
+            }
+            else
+            {
+                MessageBox.Show("База данных ещё не подключена!", "Предупреждение");
+
+            }
+        }
+        //Создаем блок ProjectBox
+        private void NewProjectBox<T>(List<T> items)
+        {
+
+            //Условие создания, если вызов был от кнопки пользователя.
+            if (items[0] is bool firstItem && firstItem == false)
+            {
+                // Получаем позицию мыши относительно Canvas
+                var mousePosition = Mouse.GetPosition(Canvas2);
+
+                // Создаём экземпляр ProjectBox
+                var projectBox = new TypicalProjectBox(mousePosition.X, mousePosition.Y, false);
+
+                // Подписываемся на удаление блока
+                projectBox.OnDeleteRequestedProject += RemoveBlockProject;
+
+                // Устанавливаем позицию блока на Canvas
+                Canvas.SetLeft(projectBox, mousePosition.X);
+                Canvas.SetTop(projectBox, mousePosition.Y);
+
+                // Добавляем блок на Canvas
+                Canvas2.Children.Add(projectBox);
+            }
+
+            //Условие создания, если вызов был от открытия БД.
+            if (items[0] is bool firstItem1 && firstItem1 == true)
+            {
+                // Создаём блок ProjectBox
+                var projectBox = new TypicalProjectBox(Convert.ToDouble(items[2]), Convert.ToDouble(items[3]), true)
+                {
+                    BlockID = Convert.ToInt32(items[1]), // Привязываем ID из базы данных
+                    ProjectName = Convert.ToString(items[4]), // Ваши свойства IncomeMoney и другие должны быть добавлены в класс IncomeBox
+                    Description = Convert.ToString(items[5]),
+                    
+                };
+
+                projectBox.InitializeData1(true);
+                Debug.WriteLine($"Создание блока2: ID={projectBox.BlockID}, ProjectName={projectBox.ProjectName}, Description={projectBox.Description}");
+
+                // Устанавливаем позицию блока на Canvas
+                Canvas.SetLeft(projectBox, Convert.ToDouble(items[2]));
+                Canvas.SetTop(projectBox, Convert.ToDouble(items[3]));
+
+                // Подписываемся на удаление блока
+                projectBox.OnDeleteRequestedProject += RemoveBlockProject;
+
+                // Добавляем блок на Canvas
+                Canvas2.Children.Add(projectBox);
+
+
+            }
+
+        }
+        //Удаление ProjectBox
+        private void RemoveBlockProject(TypicalProjectBox projectBox)
+        {
+            // Удаляем блок с Canvas
+            Canvas2.Children.Remove(projectBox);
+            MessageBox.Show($"Блок с ID {projectBox.BlockID} удалён.", "Успех");
+        }
+
+
+        //Вставка блока ContractBox (c записью в БД)
+        private void AddContractBox_Click(object sender, RoutedEventArgs e)
+        {
+            if (GlobalData.isConnected)
+            {
+                var mixedList2 = new List<object>
+            {
+                false, 0, 0,0, "null", "null", "null", "null","null","null","null","null","null","null",
+            };
+
+                NewContractBox(mixedList2);
+            }
+            else
+            {
+                MessageBox.Show("База данных ещё не подключена!", "Предупреждение");
+
+            }
+        }
+        //Создаем блок ContractBox
+        private void NewContractBox<T>(List<T> items)
+        {
+
+            //Условие создания, если вызов был от кнопки пользователя.
+            if (items[0] is bool firstItem && firstItem == false)
+            {
+                // Получаем позицию мыши относительно Canvas
+                var mousePosition = Mouse.GetPosition(Canvas2);
+
+                // Создаём экземпляр ContractBox
+                var contractBox = new TypicalContractBox(mousePosition.X, mousePosition.Y, false);
+
+                // Подписываемся на удаление блока
+                contractBox.OnDeleteRequestedContract += RemoveBlockContract;
+
+                // Устанавливаем позицию блока на Canvas
+                Canvas.SetLeft(contractBox, mousePosition.X);
+                Canvas.SetTop(contractBox, mousePosition.Y);
+
+                // Добавляем блок на Canvas
+                Canvas2.Children.Add(contractBox);
+            }
+
+            //Условие создания, если вызов был от открытия БД.
+            if (items[0] is bool firstItem1 && firstItem1 == true)
+            {
+                // Создаём блок ContractBox
+                var contractBox = new TypicalContractBox(Convert.ToDouble(items[2]), Convert.ToDouble(items[3]), true)
+                {
+                    BlockID = Convert.ToInt32(items[1]), // Привязываем ID из базы данных
+                    dContractNumber = Convert.ToString(items[4]),
+                    dStartDate = Convert.ToString(items[5]),
+                    dCustomerName = Convert.ToString(items[6]),
+                    dBuilderName = Convert.ToString(items[7]),
+                    dStartWorkDate = Convert.ToString(items[8]),
+                    dEndWorkDate = Convert.ToString(items[9]),
+                    dIGK = Convert.ToString(items[10]),
+                    dContractMoney = Convert.ToString(items[11]),
+                    dmbAvans = Convert.ToString(items[12]),
+                    dgarantMoney = Convert.ToString(items[13]),
+                 };
+
+                contractBox.InitializeData1(true);
+                
+
+                // Устанавливаем позицию блока на Canvas
+                Canvas.SetLeft(contractBox, Convert.ToDouble(items[2]));
+                Canvas.SetTop(contractBox, Convert.ToDouble(items[3]));
+
+                // Подписываемся на удаление блока
+                contractBox.OnDeleteRequestedContract += RemoveBlockContract;
+
+                // Добавляем блок на Canvas
+                Canvas2.Children.Add(contractBox);
+
+
+            }
+
+        }
+
+        //Удаление ContractBox
+        private void RemoveBlockContract(TypicalContractBox contractBox)
+        {
+            // Удаляем блок с Canvas
+            Canvas2.Children.Remove(contractBox);
+            MessageBox.Show($"Блок с ID {contractBox.BlockID} удалён.", "Успех");
+        }
 
         //Создаем DB по кнопке
         private void CreateNewDB(object sender, RoutedEventArgs e)
@@ -461,6 +627,107 @@ namespace kanban_v2
                                 }
                             }
                         }
+
+                        // Проверяем, есть ли таблица ProjectBox
+                        string checkTableQueryProjectBox = "SELECT name FROM sqlite_master WHERE type='table' AND name='ProjectBox'";
+                        using (var command = new SqliteCommand(checkTableQueryProjectBox, connection))
+                        {
+                            var result = command.ExecuteScalar();
+                            if (result != null)
+                            {
+                                MessageBox.Show($"В базе данных присутствует таблица ProjectBox.", "Успех");
+                            }
+                            else
+                            {
+                                MessageBox.Show("В базе данных отсутствует таблица ProjectBox.", "Предупреждение");
+                            }
+                        }
+
+                        // Считываем записи из таблицы ProjectBox
+                        string selectProjectBoxQuery = "SELECT Id, X, Y, ProjectName, Description FROM ProjectBox";
+                        using (var command = new SqliteCommand(selectProjectBoxQuery, connection))
+                        {
+                            using (var reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    // Получаем значения из таблицы
+                                    int id = reader.GetInt32(0);
+                                    double x = reader.GetDouble(1);
+                                    double y = reader.GetDouble(2);
+                                    string projectName = string.IsNullOrEmpty(reader.IsDBNull(3) ? null : reader.GetString(3)) ? "Введите название проекта" : reader.GetString(3);
+                                    string description = string.IsNullOrEmpty(reader.IsDBNull(4) ? null : reader.GetString(4)) ? "Введите описание проекта" : reader.GetString(4);
+                                    
+
+
+                                    // Проверяем полученные значения
+                                    Debug.WriteLine($"Создание блока1: ID={id}, X={x}, Y={y}, ProjectName={projectName}, Description={description}");
+
+                                    //Формируем список из переменных и вызываем метод
+                                    var mixedList = new List<object>
+                                        {
+                                             true, id, x,y, projectName, description,
+                                        };
+
+                                    NewProjectBox(mixedList);
+                                }
+                            }
+                        }
+
+                        // Проверяем, есть ли таблица ContractBox
+                        string checkTableQueryContractBox = "SELECT name FROM sqlite_master WHERE type='table' AND name='ContractBox'";
+                        using (var command = new SqliteCommand(checkTableQueryContractBox, connection))
+                        {
+                            var result = command.ExecuteScalar();
+                            if (result != null)
+                            {
+                                MessageBox.Show($"В базе данных присутствует таблица ContractBox.", "Успех");
+                            }
+                            else
+                            {
+                                MessageBox.Show("В базе данных отсутствует таблица ContractBox.", "Предупреждение");
+                            }
+                        }
+
+                        // Считываем записи из таблицы ContractBox
+                        string selectContractBoxQuery = "SELECT Id, X, Y, ContractNumber, ContractDate, Customer, Builser, DataStartWork, DataEndWork, Igk, mbMoney, mbAvans, mbGarant FROM ContractBox";
+                        using (var command = new SqliteCommand(selectContractBoxQuery, connection))
+                        {
+                            using (var reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    // Получаем значения из таблицы
+                                    int id = reader.GetInt32(0);
+                                    double x = reader.GetDouble(1);
+                                    double y = reader.GetDouble(2);
+                                    string sContractNumber = string.IsNullOrEmpty(reader.IsDBNull(3) ? null : reader.GetString(3)) ? "Введите номер контракта" : reader.GetString(3);
+                                    string sContractDate = string.IsNullOrEmpty(reader.IsDBNull(4) ? null : reader.GetString(4)) ? "Введите дату контракта" : reader.GetString(4);
+                                    string sCustomer = string.IsNullOrEmpty(reader.IsDBNull(5) ? null : reader.GetString(5)) ? "Введите заказчика" : reader.GetString(5);
+                                    string sBuilser = string.IsNullOrEmpty(reader.IsDBNull(6) ? null : reader.GetString(6)) ? "Введите исполнителя" : reader.GetString(6);
+                                    string sDataStartWork = string.IsNullOrEmpty(reader.IsDBNull(7) ? null : reader.GetString(7)) ? "Введите дату начала работ" : reader.GetString(7);
+                                    string sDataEndWork = string.IsNullOrEmpty(reader.IsDBNull(8) ? null : reader.GetString(8)) ? "Введите дату окончания работ" : reader.GetString(8);
+                                    string sIgk = string.IsNullOrEmpty(reader.IsDBNull(9) ? null : reader.GetString(9)) ? "Введите номер ИГК" : reader.GetString(9);
+                                    string smbMoney = string.IsNullOrEmpty(reader.IsDBNull(10) ? null : reader.GetString(10)) ? "Введите стоимость контракта" : reader.GetString(10);
+                                    string smbAvans = string.IsNullOrEmpty(reader.IsDBNull(11) ? null : reader.GetString(11)) ? "Введите сумму аванса" : reader.GetString(11);
+                                    string smbGarant = string.IsNullOrEmpty(reader.IsDBNull(12) ? null : reader.GetString(12)) ? "Введите сумму гарантийных обязательств" : reader.GetString(12);
+
+
+
+
+                                    
+
+                                    //Формируем список из переменных и вызываем метод
+                                    var mixedList = new List<object>
+                                        {
+                                             true, id, x,y, sContractNumber, sContractDate, sCustomer, sBuilser, sDataStartWork, sDataEndWork, sIgk, smbMoney, smbAvans, smbGarant,
+                                        };
+
+                                    NewContractBox(mixedList);
+                                }
+                            }
+                        }
+
                     }
                 }
 

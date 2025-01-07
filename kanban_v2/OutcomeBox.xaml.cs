@@ -63,6 +63,7 @@ namespace kanban_v2
             ibPole2.Text = Date;
             ibPole3.Text = Owner;
             ibPole4.Text = Convert.ToString(BlockId);
+            ZoneHide.Visibility = Visibility.Collapsed;
         }
 
         //Логика для удаления блока

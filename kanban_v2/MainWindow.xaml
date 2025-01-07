@@ -30,6 +30,8 @@
                         
                         <MenuItem Header="Добавить Income" Click="AddIncomeBox_Click"/>
                         <MenuItem Header="Добавить Outcome" Click="AddOutcomeBox_Click"/>
+                        <MenuItem Header="Добавить Project" Click="AddProjectBox_Click"/>
+                        <MenuItem Header="Добавить Contract" Click="AddContractBox_Click"/>
 
                     </ContextMenu>
                 </Canvas.ContextMenu>

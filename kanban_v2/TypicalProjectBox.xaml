@@ -21,16 +21,15 @@
                 <TextBlock x:Name="OpisBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="ОПИСАНИЕ ПРОЕКТА" VerticalAlignment="Top" Height="Auto" Width="Auto" FontFamily="Times New Roman" TextAlignment="Left" Margin="0,108,0,0" FontSize="14"/>
                 <Button Click="HideZone" Content="?" HorizontalAlignment="Left" Margin="122,281,0,8" Width="20" Height="20"/>
                 <TextBlock x:Name="NameBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="ПРОЕКТ" VerticalAlignment="Top" Height="Auto" Width="Auto" FontWeight="Bold" FontFamily="Times New Roman" TextAlignment="Center" FontSize="16" Margin="0,19,0,0"/>
+                <TextBlock x:Name="idProjectBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="N" VerticalAlignment="Top" Height="Auto" Width="35" FontFamily="Times New Roman" TextAlignment="Left" Margin="72,292,0,0" FontSize="14"/>
             </Grid>
 
 
         </GroupBox>
         <GroupBox x:Name="Corrector" Background="#FFE8E2CC" HorizontalAlignment="Left" Width="160" Height="320" VerticalAlignment="Center" RenderTransformOrigin="0.523,0.5" Margin="170,0,0,0">
             <Grid>
-                <TextBox  x:Name ="NameToBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Введите название проекта" VerticalAlignment="Top" Width="140" Height="80" FontWeight="Bold" FontFamily="Arial Black" Background="#FFC5C1C0" Margin="0,9,0,0" RenderTransformOrigin="0.5,0.525"/>
-                <TextBox x:Name="OpisToBox" HorizontalAlignment="Center" Margin="0,119,0,0" TextWrapping="Wrap" Text="Описание проекта" VerticalAlignment="Top" Width="140" Height="125"/>
-                <Button Click="SaveName" Content="WRITE" HorizontalAlignment="Center" Margin="0,91,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.51,-0.393" Width="140"/>
-                <Button Click="SaveOpis" Content="WRITE" HorizontalAlignment="Center" Margin="0,244,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.51,-0.393" Width="140"/>
+                <TextBox  KeyDown="SaveName" x:Name ="NameToBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Введите название проекта" VerticalAlignment="Top" Width="140" Height="80" FontWeight="Bold" FontFamily="Arial Black" Background="#FFC5C1C0" Margin="0,9,0,0" RenderTransformOrigin="0.5,0.525"/>
+                <TextBox KeyDown="SaveOpis" x:Name="OpisToBox" HorizontalAlignment="Center" Margin="0,119,0,0" TextWrapping="Wrap" Text="Описание проекта" VerticalAlignment="Top" Width="140" Height="125"/>
                 <Button Click="DeleteBlockProject" Content="-" HorizontalAlignment="Left" Margin="3,283,0,10" Width="20"/>
 
             </Grid>

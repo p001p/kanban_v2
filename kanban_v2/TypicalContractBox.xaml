@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:kanban_v2"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" Width="575" Height="325">
     <Grid>
 
@@ -31,6 +32,7 @@
                 <Button Click="HideMoney" Content="$" HorizontalAlignment="Left" Margin="94,289,0,0" Width="21" Background="#FFDDDDDD" Height="20" VerticalAlignment="Top"/>
                 <TextBlock HorizontalAlignment="Center" Margin="0,255,0,0" TextWrapping="Wrap" Text="ИГК:" VerticalAlignment="Top" Width="134" FontFamily="Times New Roman" FontWeight="Bold"/>
                 <TextBlock x:Name="IGK" HorizontalAlignment="Center" Margin="0,270,0,0" TextWrapping="Wrap" Text="IGK:" VerticalAlignment="Top" Width="136" FontFamily="Times New Roman" Height="15" Background="#FFEDE2E2" RenderTransformOrigin="0.485,0.467"/>
+                <TextBlock x:Name="ContractID" HorizontalAlignment="Left" Margin="47,295,0,0" TextWrapping="Wrap" Text="N" VerticalAlignment="Top" Width="20" FontFamily="Times New Roman"/>
             </Grid>
         </GroupBox>
         <GroupBox x:Name="Corrector" Background="#FFE8E2CC" HorizontalAlignment="Left" Width="245" Height="320" VerticalAlignment="Center" RenderTransformOrigin="0.523,0.5" Margin="329,0,0,0">
@@ -43,7 +45,7 @@
                 <TextBox KeyDown="enterValue_6" x:Name="EndWorkDateToBox" HorizontalAlignment="Center" Margin="0,130,0,0" TextWrapping="Wrap" Text="Дата окончания работ:" VerticalAlignment="Top" Width="225" Height="20"/>
                 <TextBox KeyDown="enterValue_7" x:Name="IGKToBox" HorizontalAlignment="Center" Margin="0,155,0,0" TextWrapping="Wrap" Text="ИГК:" VerticalAlignment="Top" Width="225" Height="20"/>
                 <TextBox KeyDown="enterValue_8" x:Name="ContractMoneyToBox" HorizontalAlignment="Center" Margin="0,200,0,0" TextWrapping="Wrap" Text="Сумма контракта:" VerticalAlignment="Top" Width="225" Height="20"/>
-                <TextBox KeyDown="enterValue_9" x:Name="mbAvansToBox" HorizontalAlignment="Center" Margin="0,225,0,0" TextWrapping="Wrap" Text="Возможный аванс:" VerticalAlignment="Top" Width="225" Height="20"/>
+                <TextBox materialDesign:HintAssist.Hint="Введите ваше имя" KeyDown="enterValue_9" x:Name="mbAvansToBox" HorizontalAlignment="Center" Margin="0,225,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="225" Height="20"/>
                 <TextBox KeyDown="enterValue_10" x:Name="garantMoneyToBox" HorizontalAlignment="Center" Margin="0,250,0,0" TextWrapping="Wrap" Text="Сумма гарантий:" VerticalAlignment="Top" Width="225" Height="20"/>
                 <Button Click="DeleteBlock" Content="-" HorizontalAlignment="Left" Margin="3,290,0,0" Width="21" Background="#FFDDDDDD" Height="20" VerticalAlignment="Top"/>
 
